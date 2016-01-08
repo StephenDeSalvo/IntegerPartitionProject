@@ -22,8 +22,8 @@ class PartitionCreator {
 public:
     RandomPartition* generateRandomPartition(int size);
 private:
-    void RejectionSample(int goal_size);
-    RandomPartition* createPartitionGroups();
+    RandomPartition* RejectionSample(int goal_size);
+    RandomPartition* createPartitionGroups(int size);
     int sumOverPartition(const RandomPartition& part);
 };
 
