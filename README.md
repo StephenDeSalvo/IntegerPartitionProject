@@ -1,7 +1,7 @@
-January 16th, 2016
+January 17th, 2016<br />
 The main routines of past commits have been stored in their own folder.
 
-Pre-January 16th, 2016
+Pre-January 17th, 2016<br />
 Welcome to the combinatorics branch of the Integer Partition Project!
 
 The namespace for the files we provide will be IPC.
