@@ -3,8 +3,11 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp \
-    IntegerPartitions.cpp
+SOURCES += \
+    IntegerPartitions.cpp \
+    main.cpp
 
 HEADERS += \
-    IntegerPartitions.hpp
+    IntegerPartitions.hpp \
+    PartitionTypes.hpp \
+    IPsFunctions.hpp

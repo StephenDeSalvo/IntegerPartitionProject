@@ -1,10 +1,10 @@
 #ifndef INTEGER_PARTITIONS_COMBINATORICS_INTEGER_PARTITIONS_HPP
 #define INTEGER_PARTITIONS_COMBINATORICS_INTEGER_PARTITIONS_HPP
 
-#include <vector>
+#include "PartitionTypes.hpp"
 
 ////////////////////////////////////////////////////////////////////////
-/// The IntegerPartitionsCombinatorics namespace.
+/// \brief The IntegerPartitionsCombinatorics namespace.
 ////////////////////////////////////////////////////////////////////////
 namespace IPC
 {
@@ -18,14 +18,10 @@ namespace IPC
     /// partition.
     /// Each partition is a vector of multiplicities.
     ////////////////////////////////////////////////////////////////////////
-    /// \todo Make the partition a hash map of multiplicities to save space.
-    ////////////////////////////////////////////////////////////////////////
     class IntegerPartitions
     {
     public:
         IntegerPartitions(const std::size_t& integer);
-
-        typedef std::vector<std::size_t> Partition;
 
         std::size_t getInteger() const;
 
@@ -56,7 +52,7 @@ namespace IPC
     public:
         Iterator& operator++();
         Iterator operator++(int);
-        const IntegerPartitions::Partition operator*() const;
+        const PMult operator*() const;
 
     private:
         Iterator(const IntegerPartitions * const container);
@@ -64,7 +60,7 @@ namespace IPC
         ////////////////////////////////////////////////////////////////////////
         /// \brief The current partition this iterator contains.
         ///////////////////////////////////////////////////////////////////////////
-        IntegerPartitions::Partition partition;
+        PMult partition;
         ////////////////////////////////////////////////////////////////////////
         /// \brief The parent object of this iterator.
         ////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,34 @@
+#ifndef PARTITIONTYPES_HPP
+#define PARTITIONTYPES_HPP
+
+#include <vector>
+
+////////////////////////////////////////////////////////////////////////
+/// The IntegerPartitionsCombinatorics namespace.
+////////////////////////////////////////////////////////////////////////
+namespace IPC
+{
+    ////////////////////////////////////////////////////////////////////////
+    /// \brief A partition represented in terms of the multiplicities of its parts.
+    ////////////////////////////////////////////////////////////////////////
+    /// \todo Represent the multiplicities partition as a hash map of
+    /// multiplicities to save space.
+    ////////////////////////////////////////////////////////////////////////
+    typedef std::vector<std::size_t> PMult;
+
+    ////////////////////////////////////////////////////////////////////////
+    /// \brief A partition represented in terms of the sizes of its parts.
+    ////////////////////////////////////////////////////////////////////////
+    typedef std::vector<std::size_t> PSize;
+
+    /*
+     * As an example, consider the integer partition of 7 given by
+     *  ***
+     *  **
+     *  **
+     * The vector for PMult would be {0,2,1,0,0,0,0} whereas
+     * the vector for PSize would be {3,2,2}.
+     */
+}
+
+#endif // PARTITIONTYPES_HPP

@@ -130,7 +130,7 @@ namespace IPC
     /// \brief Dereferences the iterator.
     /// \return the integer partition that this iterator contains.
     ///////////////////////////////////////////////////////////////////////////
-    const IntegerPartitions::Partition IntegerPartitions::Iterator::operator*() const
+    const PMult IntegerPartitions::Iterator::operator*() const
     {
         return partition;
     }
