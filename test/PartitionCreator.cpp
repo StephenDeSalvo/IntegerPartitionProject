@@ -6,7 +6,7 @@
 //  Copyright © 2016 Taylor Hamermesh. All rights reserved.
 //
 
-#include "PartitionCreator.hpp"
+#include "PartitionCreator.h"
 #include "math.h"
 #include <random>
 #include <chrono>
@@ -230,6 +230,3 @@ int main(){
     std::cout << std::endl;
 }
 
-int main(void) {
-    return 0;
-}
