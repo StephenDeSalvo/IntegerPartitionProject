@@ -6,10 +6,44 @@
 //  Copyright © 2016 Taylor Hamermesh. All rights reserved.
 //
 
-#include "PartitionCreator.h"
+#include "PartitionCreator.hpp"
 #include "math.h"
 #include <random>
 #include <chrono>
+
+
+std::vector<int>* RandomPartition::getFerrersIndexes() {
+    //loop through partitions in reverse order to give ferrer's diagram sizes in a vector:
+    //largest size stored at index 1, smallest at n
+    
+    //no ferrers diagram if there are no partition sizes
+    int size = partition_sizes.size();
+    if (size==0)
+        return nullptr;
+    
+    std::vector<int>* ferrersIndexes = new std::vector<int>;
+    
+    //loop through all multiplicities
+    for (int i = size; i>1; i--) {
+        int multQuantity = partition_sizes[i];
+        
+        if (multQuantity == 0)
+            continue;
+        
+        //push back the size of the value however many times it is present
+        for (int j=0; j<multQuantity; j++) {
+            ferrersIndexes->push_back(i);
+        }
+            
+    }
+    
+    return ferrersIndexes;
+}
+
+
+
+
+
 
 
 RandomPartition* PartitionCreator::generateRandomPartition(int size) {
@@ -91,4 +125,8 @@ int PartitionCreator::sumOverPartition(const RandomPartition& part){
         sum += i * part.partition_sizes[i];
     }
     return sum;
+}
+
+int main(void) {
+    return 0;
 }

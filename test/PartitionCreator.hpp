@@ -15,6 +15,7 @@
 //To be edited later as updates needed
 class RandomPartition {
 public:
+    std::vector<int>* getFerrersIndexes();
     std::vector<int>partition_sizes;
 };
 
@@ -25,6 +26,7 @@ private:
     RandomPartition* RejectionSample(int goal_size);
     RandomPartition* createPartitionGroups(int size);
     int sumOverPartition(const RandomPartition& part);
+
 };
 
 #endif /* PartitionCreator_hpp */
