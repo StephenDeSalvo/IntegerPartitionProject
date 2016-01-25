@@ -1,4 +1,5 @@
 //
+//
 //  PartitionCreator.hpp
 //  ProbabilisticRejection
 //
@@ -6,8 +7,8 @@
 //  Copyright © 2016 Taylor Hamermesh. All rights reserved.
 //
 
-#ifndef PartitionCreator_hpp
-#define PartitionCreator_hpp
+#ifndef PartitionCreator_h
+#define PartitionCreator_h
 
 #include <stdio.h>
 #include <vector>
@@ -29,4 +30,4 @@ private:
 
 };
 
-#endif /* PartitionCreator_hpp */
+#endif /* PartitionCreator_h */
