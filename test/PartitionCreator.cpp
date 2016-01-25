@@ -48,7 +48,17 @@ std::vector<int>* RandomPartition::getFerrersIndexes() {
 
 
 RandomPartition* PartitionCreator::generateRandomPartition(int size) {
+    
+    //error handling: do not generate partitions of size zero or less
+    if (size<=0)
+        return nullptr;
+    
     RandomPartition* partition = new RandomPartition();
+    
+    //I think that we may be leaking memory in the above new during rejection sample because I think we're throwing away
+    //the random partition we're creating here
+    //No time to fix at present.
+    
     
     //presently runs rejection sample. Could run other functions here or allow options later.
     //partition = RejectionSample(size);
