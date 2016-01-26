@@ -10,4 +10,5 @@ SOURCES += \
 HEADERS += \
     IntegerPartitions.hpp \
     PartitionTypes.hpp \
-    IPsFunctions.hpp
+    IPsFunctions.hpp \
+    BGT.hpp
