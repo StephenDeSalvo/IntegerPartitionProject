@@ -26,16 +26,11 @@ public:
     RandomPartition* generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms = div_conquer_deterministic);
 private:
     RandomPartition* RejectionSample(int goal_size);
-    
-    
+    RandomPartition* divConquerDeterministic(int goal_size);
     RandomPartition* selfSimilarDivConquer(int goal_size);
     
     
     RandomPartition* DEBUG_createRejSamplePartGroups(int size,int start_pos);
-    
-    
-    
-    RandomPartition* PDC_DSH_IP(int goal_size);
     RandomPartition* createPartitionGroups(int size, int start_pos);
 
     double U;

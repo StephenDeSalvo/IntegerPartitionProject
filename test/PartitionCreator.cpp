@@ -55,7 +55,7 @@ RandomPartition* PartitionCreator::generateRandomPartition(int size, enum Partit
             partition = RejectionSample(size);
             break;
         case div_conquer_deterministic:
-            partition = PDC_DSH_IP(size);
+            partition = divConquerDeterministic(size);
             break;
         case self_similar_div_conquer:
             partition = selfSimilarDivConquer(size);
@@ -91,7 +91,7 @@ RandomPartition* PartitionCreator::RejectionSample(int goal_size) {
     
 }
 
-RandomPartition* PartitionCreator::PDC_DSH_IP(int goal_size){
+RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
     RandomPartition* test_partition = nullptr;
     
     test_partition = createPartitionGroups(goal_size,2);
