@@ -41,12 +41,6 @@ std::vector<int>* RandomPartition::getFerrersIndexes() {
     return ferrersIndexes;
 }
 
-
-
-
-
-
-
 RandomPartition* PartitionCreator::generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms algo) {
 
     //error handling: do not generate partitions of size zero or less
@@ -64,7 +58,7 @@ RandomPartition* PartitionCreator::generateRandomPartition(int size, enum Partit
             partition = PDC_DSH_IP(size);
             break;
         case self_similar_div_conquer:
-            partition = SS_PDC_IP(size);
+            partition = selfSimilarDivConquer(size);
             break;
     }
     
@@ -78,10 +72,13 @@ RandomPartition* PartitionCreator::RejectionSample(int goal_size) {
     
     RandomPartition* test_partition = nullptr;
 
-    //use uniform distributions to generate numbers for partition groups
+    //use uniform distributions to generate numbers for partition groups.
+    //partition_size[i] is the number of "i" sized partition groups.
+    //Note that we index from 1 to goal_size.
+    
     test_partition = createPartitionGroups(goal_size,1);
 
-    //sum partition counts here using whichever indexing method we agree is better.
+    //count if we generated a partition of the correct size.
     for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
         counter += i * test_partition->partition_sizes[i];
     }
@@ -105,7 +102,7 @@ RandomPartition* PartitionCreator::PDC_DSH_IP(int goal_size){
         k -= i*test_partition->partition_sizes[i];
     }
     
-    if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))){
+    if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))) {
         //test_partition->partition_sizes.insert(test_partition->partition_sizes.begin()+1, k);
         test_partition->partition_sizes[1] = k;
         return test_partition;
@@ -114,8 +111,13 @@ RandomPartition* PartitionCreator::PDC_DSH_IP(int goal_size){
 }
 
 
-/*
-RandomPartition* PartitionCreator::SS_PDC_IP(int goal_size){
+
+RandomPartition* PartitionCreator::selfSimilarDivConquer(int goal_size) {
+    //DEBUG
+    return nullptr;
+    
+    
+    /*
     const double c = 3.14159/sqrt(6);
     const double x = 1 - (c / (sqrt(goal_size)));
     int k;
@@ -164,7 +166,7 @@ RandomPartition* PartitionCreator::SS_PDC_IP(int goal_size){
             return nullptr;
         
         else if(*******){
-            RandomPartition* a = SS_PDC_IP(k/2);
+            RandomPartition* a = selfSimilarDivConquer(k/2);
             for (int i = 1; i <= goal_size/2; i++){
                 test_partition->partition_sizes[2*i] = a->partition_sizes[2*i-1];
                 return test_partition;
@@ -173,9 +175,21 @@ RandomPartition* PartitionCreator::SS_PDC_IP(int goal_size){
         else return nullptr;
 
     }
-    
+  */
 }
-*/
+
+
+
+RandomPartition* PartitionCreator::DEBUG_createRejSamplePartGroups(int size,int start_pos) {
+    return nullptr;
+}
+
+
+
+
+
+//See function DEBUG_createRejSamplePartGroups
+//It's possible based on the paper that the math here is incorrect
 RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos) {
     double c = 3.14159/sqrt(6);
     double x = 1 - (c / (sqrt(size)));
