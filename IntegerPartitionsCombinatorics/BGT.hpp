@@ -4,6 +4,8 @@
 #include <vector>
 #include <utility>
 #include <cassert>
+#include <map>
+#include <algorithm>
 
 namespace IPC
 {
@@ -13,8 +15,9 @@ namespace IPC
     template <typename Z>
     struct Point
     {
-        Point(Z x = NULL, Z y = NULL) : x(x), y(y) {}
+        Point(Z x = NULL, Z y = NULL, Z id = NULL) : x(x), y(y), id(id) {}
         Z x, y;
+        Z id;
     };
 
     template <typename Z>
@@ -172,7 +175,6 @@ namespace IPC
             }
             return input;
         }
-
     }
 }
 

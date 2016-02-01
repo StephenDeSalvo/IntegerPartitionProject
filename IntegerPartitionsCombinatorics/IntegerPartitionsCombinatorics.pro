@@ -11,4 +11,5 @@ HEADERS += \
     IntegerPartitions.hpp \
     PartitionTypes.hpp \
     IPsFunctions.hpp \
-    BGT.hpp
+    BGT.hpp \
+    BAT.hpp
