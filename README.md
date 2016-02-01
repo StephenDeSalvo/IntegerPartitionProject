@@ -1,3 +1,7 @@
+February 1st, 2016<br />
+Implemented Pak's basic geometric/arithmetic transform functions.
+Added an "id" to the point stuct, which MUST be manually initialized if one wishes to use it, for tracking points.
+
 January 17th, 2016<br />
 The main routines of past commits have been stored in their own folder.
 
