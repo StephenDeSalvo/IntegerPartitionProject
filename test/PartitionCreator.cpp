@@ -47,26 +47,27 @@ std::vector<int>* RandomPartition::getFerrersIndexes() {
 
 
 
-RandomPartition* PartitionCreator::generateRandomPartition(int size) {
-    
+RandomPartition* PartitionCreator::generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms algo) {
+
     //error handling: do not generate partitions of size zero or less
     if (size<=0)
         return nullptr;
     
-    RandomPartition* partition = new RandomPartition();
+    RandomPartition* partition = nullptr;
     
-    //I think that we may be leaking memory in the above new during rejection sample because I think we're throwing away
-    //the random partition we're creating here
-    //No time to fix at present.
-    
-    
-    //presently runs rejection sample. Could run other functions here or allow options later.
-    //partition = RejectionSample(size);
-    partition = PDC_DSH_IP(size);
-    while(partition == nullptr){
-        //partition = RejectionSample(size);
-        partition = PDC_DSH_IP(size);
+    //use the algorithm passed by the user. Has a default value in the header, check if interested.
+    switch (algo) {
+        case rejection_sample:
+            partition = RejectionSample(size);
+            break;
+        case div_conquer_deterministic:
+            partition = PDC_DSH_IP(size);
+            break;
+        case self_similar_div_conquer:
+            partition = SS_PDC_IP(size);
+            break;
     }
+    
     return partition;
 }
 
@@ -76,39 +77,20 @@ RandomPartition* PartitionCreator::RejectionSample(int goal_size) {
     int counter = 0;
     
     RandomPartition* test_partition = nullptr;
-    
 
-        //use uniform distributions to generate numbers for partition groups
-        test_partition = createPartitionGroups(goal_size,1);
-        
-        //delete this below and in the loop and replace it with either <= goal_size or <goal_size,
-        //based on the indexing metric we agree on
-        
-        //int DEBUG_VALID_STOP_POINT = 10000000;
-        
-        //loop through the partition we generate and count all entries to see if we generated valid partitions
-    
-        /*Two ideas for partition indexing.
-     
-     
-         First: zero index value of vector is meaningless or some utility value we may need,
-         and arbitrary index I would 1 to 1 correspond with the number of parts of size I.
-     
-         Second: index from zero like normal, deal with the mental size decrease in all instances
-     
-         To be determined which is preferable.
-         */
-    
-        //sum partition counts here using whichever indexing method we agree is better.
-        for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
-            counter += i * test_partition->partition_sizes[i];
-        }
-    
-        //conclude if we hit the goal size
-        if (counter==goal_size) {
-            return test_partition;
-        }
-        else return nullptr;
+    //use uniform distributions to generate numbers for partition groups
+    test_partition = createPartitionGroups(goal_size,1);
+
+    //sum partition counts here using whichever indexing method we agree is better.
+    for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
+        counter += i * test_partition->partition_sizes[i];
+    }
+
+    //conclude if we hit the goal size
+    if (counter==goal_size) {
+        return test_partition;
+    }
+    else return nullptr;
     
 }
 
@@ -130,6 +112,8 @@ RandomPartition* PartitionCreator::PDC_DSH_IP(int goal_size){
     }
     else return nullptr;
 }
+
+
 /*
 RandomPartition* PartitionCreator::SS_PDC_IP(int goal_size){
     const double c = 3.14159/sqrt(6);

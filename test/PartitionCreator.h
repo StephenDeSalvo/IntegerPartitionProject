@@ -22,7 +22,8 @@ public:
 
 class PartitionCreator {
 public:
-    RandomPartition* generateRandomPartition(int size);
+    enum sampleAlgorithms {rejection_sample, div_conquer_deterministic, self_similar_div_conquer};
+    RandomPartition* generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms = div_conquer_deterministic);
 private:
     RandomPartition* RejectionSample(int goal_size);
     RandomPartition* PDC_DSH_IP(int goal_size);
