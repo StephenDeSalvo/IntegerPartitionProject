@@ -21,19 +21,11 @@ RandomPartition* PartitionCreator::generateRandomPartition(int size, enum Partit
     
     RandomPartition* partition = nullptr;
     
-    //debug
-    std::cout << "algo is" << algo << std::endl;
-    
     //use the algorithm passed by the user. Has a default value in the header, check if interested.
     switch (algo) {
         case rejection_sample:
         {
-            //debug
-            std::cout << "Calling RejectSample";
             partition = rejectionSample(size);
-            //debug
-            std::cout << ", value of partition is " << partition;
-            
             break;
         }
         case div_conquer_deterministic:
@@ -48,8 +40,7 @@ RandomPartition* PartitionCreator::generateRandomPartition(int size, enum Partit
         }
         default:
         {
-            //debug
-            std::cout << "Something Broke";
+            std::cout << "Generate Random Partition ran without a valid function enum";
             exit(5);
         }
     }
@@ -79,9 +70,6 @@ RandomPartition* PartitionCreator::rejectionSample(int goal_size) {
         
         test_partition = createPartitionGroups(goal_size,1);
         
-        //debug
-        std::cout << "Partition has made it to rejection sample at memory address " << test_partition << std::endl;
-
         //count if we generated a partition of the correct size.
         for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
             counter += i * test_partition->partition_sizes[i];
@@ -89,10 +77,6 @@ RandomPartition* PartitionCreator::rejectionSample(int goal_size) {
 
         //conclude if we hit the goal size
         if (counter==goal_size) {
-            
-            //debug
-            std::cout << "Reject Success!" << std::endl;
-            
             return test_partition;
         }
     }
@@ -193,18 +177,6 @@ RandomPartition* PartitionCreator::selfSimilarDivConquer(int goal_size) {
 }
 
 
-
-RandomPartition* PartitionCreator::DEBUG_createRejSamplePartGroups(int size,int start_pos) {
-    return nullptr;
-}
-
-
-
-
-
-//See function DEBUG_createRejSamplePartGroups
-//It's possible based on the paper that the math here is incorrect
-
 RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos) {
     double c = 3.14159/sqrt(6);
     double x = 1 - (c / (sqrt(size)));
@@ -236,9 +208,6 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
         x = x*x; // add another factor to x.  I.e., x^i --> x^i+1)
         
     }
-    
-    //debug
-    std::cout << " partition generated at " << a << std::endl;
     
     return a;
 }
