@@ -13,34 +13,6 @@
 #include <iostream>
 
 
-std::vector<int>* RandomPartition::getFerrersIndexes() {
-    //loop through partitions in reverse order to give ferrer's diagram sizes in a vector:
-    //largest size stored at index 1, smallest at n
-    
-    //no ferrers diagram if there are no partition sizes
-    int size = partition_sizes.size();
-    if (size==0)
-        return nullptr;
-    
-    std::vector<int>* ferrersIndexes = new std::vector<int>;
-    
-    //loop through all multiplicities
-    for (int i = size; i>1; i--) {
-        int multQuantity = partition_sizes[i];
-        
-        if (multQuantity == 0)
-            continue;
-        
-        //push back the size of the value however many times it is present
-        for (int j=0; j<multQuantity; j++) {
-            ferrersIndexes->push_back(i);
-        }
-            
-    }
-    
-    return ferrersIndexes;
-}
-
 RandomPartition* PartitionCreator::generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms algo) {
 
     //error handling: do not generate partitions of size zero or less
@@ -49,65 +21,107 @@ RandomPartition* PartitionCreator::generateRandomPartition(int size, enum Partit
     
     RandomPartition* partition = nullptr;
     
+    //debug
+    std::cout << "algo is" << algo << std::endl;
+    
     //use the algorithm passed by the user. Has a default value in the header, check if interested.
     switch (algo) {
         case rejection_sample:
-            partition = RejectionSample(size);
+        {
+            //debug
+            std::cout << "Calling RejectSample";
+            partition = rejectionSample(size);
+            //debug
+            std::cout << ", value of partition is " << partition;
+            
             break;
+        }
         case div_conquer_deterministic:
+        {
             partition = divConquerDeterministic(size);
             break;
+        }
         case self_similar_div_conquer:
+        {
             partition = selfSimilarDivConquer(size);
             break;
+        }
+        default:
+        {
+            //debug
+            std::cout << "Something Broke";
+            exit(5);
+        }
     }
     
     return partition;
 }
 
 
-RandomPartition* PartitionCreator::RejectionSample(int goal_size) {
-    //keep a counter to compare the number of partitions with the result
-    int counter = 0;
-    
+RandomPartition* PartitionCreator::rejectionSample(int goal_size) {
     RandomPartition* test_partition = nullptr;
-
-    //use uniform distributions to generate numbers for partition groups.
-    //partition_size[i] is the number of "i" sized partition groups.
-    //Note that we index from 1 to goal_size.
     
-    test_partition = createPartitionGroups(goal_size,1);
+    //rerun the algorithm until it works.
+    for (;;)
+    {
+        //keep a counter to compare the number of partitions with the result
+        int counter = 0;
+        
+        //delete the last partition allocation if one exists
+        if (test_partition!=nullptr)
+            delete test_partition;
+        
+        RandomPartition* test_partition = nullptr;
 
-    //count if we generated a partition of the correct size.
-    for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
-        counter += i * test_partition->partition_sizes[i];
-    }
+        //use uniform distributions to generate numbers for partition groups.
+        //partition_size[i] is the number of "i" sized partition groups.
+        //Note that we index from 1 to goal_size.
+        
+        test_partition = createPartitionGroups(goal_size,1);
+        
+        //debug
+        std::cout << "Partition has made it to rejection sample at memory address " << test_partition << std::endl;
 
-    //conclude if we hit the goal size
-    if (counter==goal_size) {
-        return test_partition;
+        //count if we generated a partition of the correct size.
+        for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
+            counter += i * test_partition->partition_sizes[i];
+        }
+
+        //conclude if we hit the goal size
+        if (counter==goal_size) {
+            
+            //debug
+            std::cout << "Reject Success!" << std::endl;
+            
+            return test_partition;
+        }
     }
-    else return nullptr;
-    
 }
 
 RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
     RandomPartition* test_partition = nullptr;
     
-    test_partition = createPartitionGroups(goal_size,2);
-    //test_partition->partition_sizes.erase(test_partition->partition_sizes.begin()+1);
+    //rerun the algorithm until it works.
+    for (;;)
+    {
+        //delete the last partition allocation if one exists
+        if (test_partition != nullptr)
+            delete test_partition;
     
-    int k = goal_size;
-    for(int i = 2; i <= goal_size; ++i){
-        k -= i*test_partition->partition_sizes[i];
+        test_partition = createPartitionGroups(goal_size,2);
+        //test_partition->partition_sizes.erase(test_partition->partition_sizes.begin()+1);
+        
+        int k = goal_size;
+        for(int i = 2; i <= goal_size; ++i){
+            k -= i*test_partition->partition_sizes[i];
+        }
+        
+        if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))) {
+            //test_partition->partition_sizes.insert(test_partition->partition_sizes.begin()+1, k);
+            test_partition->partition_sizes[1] = k;
+            return test_partition;
+        }
     }
-    
-    if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))) {
-        //test_partition->partition_sizes.insert(test_partition->partition_sizes.begin()+1, k);
-        test_partition->partition_sizes[1] = k;
-        return test_partition;
-    }
-    else return nullptr;
 }
 
 
@@ -190,6 +204,7 @@ RandomPartition* PartitionCreator::DEBUG_createRejSamplePartGroups(int size,int 
 
 //See function DEBUG_createRejSamplePartGroups
 //It's possible based on the paper that the math here is incorrect
+
 RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos) {
     double c = 3.14159/sqrt(6);
     double x = 1 - (c / (sqrt(size)));
@@ -222,18 +237,57 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
         
     }
     
+    //debug
+    std::cout << " partition generated at " << a << std::endl;
+    
     return a;
+}
+
+
+std::vector<int>* RandomPartition::getFerrersIndexes() {
+    //loop through partitions in reverse order to give ferrer's diagram sizes in a vector:
+    //largest size stored at index 1, smallest at n
+    
+    //no ferrers diagram if there are no partition sizes
+    int size = partition_sizes.size();
+    if (size==0)
+        return nullptr;
+    
+    std::vector<int>* ferrersIndexes = new std::vector<int>;
+    
+    //loop through all multiplicities
+    for (int i = size; i>1; i--) {
+        int multQuantity = partition_sizes[i];
+        
+        if (multQuantity == 0)
+            continue;
+        
+        //push back the size of the value however many times it is present
+        for (int j=0; j<multQuantity; j++) {
+            ferrersIndexes->push_back(i);
+        }
+        
+    }
+    
+    return ferrersIndexes;
 }
 
 
 int main(){
     int size = 9;
     RandomPartition* test;
+    RandomPartition* test2;
+    
     PartitionCreator* PC = new PartitionCreator();
     
-    test = PC->PartitionCreator::generateRandomPartition(size);
+    test = PC->generateRandomPartition(size, PartitionCreator::rejection_sample);
+    test2 = PC->generateRandomPartition(size, PartitionCreator::div_conquer_deterministic);
     for(int i = 1; i<=size; ++i){
         std::cout << test->partition_sizes[i] << "  ";
+    }
+    std::cout << std::endl;
+    for(int i = 1; i<=size; ++i){
+        std::cout << test2->partition_sizes[i] << "  ";
     }
     std::cout << std::endl;
 }

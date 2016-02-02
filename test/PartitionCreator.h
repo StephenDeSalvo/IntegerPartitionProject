@@ -25,7 +25,7 @@ public:
     enum sampleAlgorithms {rejection_sample, div_conquer_deterministic, self_similar_div_conquer};
     RandomPartition* generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms = div_conquer_deterministic);
 private:
-    RandomPartition* RejectionSample(int goal_size);
+    RandomPartition* rejectionSample(int goal_size);
     RandomPartition* divConquerDeterministic(int goal_size);
     RandomPartition* selfSimilarDivConquer(int goal_size);
     
