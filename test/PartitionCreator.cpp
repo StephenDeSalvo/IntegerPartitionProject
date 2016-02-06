@@ -35,7 +35,7 @@ RandomPartition* PartitionCreator::generateRandomPartition(int size, enum Partit
         }
         case self_similar_div_conquer:
         {
-            partition = selfSimilarDivConquer(size);
+            //partition = selfSimilarDivConquer(size);
             break;
         }
         default:
@@ -80,7 +80,7 @@ RandomPartition* PartitionCreator::rejectionSample(int goal_size) {
             return test_partition;
         }
     }
-}
+} 
 
 RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
     RandomPartition* test_partition = nullptr;
@@ -110,7 +110,7 @@ RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
 
 
 
-RandomPartition* PartitionCreator::selfSimilarDivConquer(int goal_size) {
+RandomPartition* PartitionCreator::selfSimilarDivConquerOLD(int goal_size) {
     //DEBUG
     return nullptr;
     
@@ -212,7 +212,7 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
     return a;
 }
 
-
+/*
 std::vector<int>* RandomPartition::getFerrersIndexes() {
     //loop through partitions in reverse order to give ferrer's diagram sizes in a vector:
     //largest size stored at index 1, smallest at n
@@ -240,7 +240,7 @@ std::vector<int>* RandomPartition::getFerrersIndexes() {
     
     return ferrersIndexes;
 }
-
+*/
 
 int main(){
     int size = 9;

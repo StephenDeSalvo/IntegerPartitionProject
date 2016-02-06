@@ -16,7 +16,7 @@
 //To be edited later as updates needed
 class RandomPartition {
 public:
-    std::vector<int>* getFerrersIndexes();
+    //std::vector<int>* getFerrersIndexes();
     std::vector<int>partition_sizes;
 };
 
@@ -27,7 +27,7 @@ public:
 private:
     RandomPartition* rejectionSample(int goal_size);
     RandomPartition* divConquerDeterministic(int goal_size);
-    RandomPartition* selfSimilarDivConquer(int goal_size);
+    RandomPartition* selfSimilarDivConquerOLD(int goal_size);
     
     
     RandomPartition* DEBUG_createRejSamplePartGroups(int size,int start_pos);
