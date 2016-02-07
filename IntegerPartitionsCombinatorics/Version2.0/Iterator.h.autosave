@@ -1,0 +1,11 @@
+#ifndef INTEGERPARTITIONSCOMBINATORICS_ITERATOR_H
+#define INTEGERPARTITIONSCOMBINATORICS_ITERATOR_H
+
+/// The IntegerPartitionsCombinatorics namespace.
+namespace IPC
+{
+    Iterator
+
+}
+
+#endif // INTEGERPARTITIONSCOMBINATORICS_ITERATOR_H

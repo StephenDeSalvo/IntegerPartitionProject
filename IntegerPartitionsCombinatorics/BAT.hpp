@@ -1,90 +1,126 @@
+////////////////////////////////////////////////////////////////////////
+/// \file BAT.hpp
+/// Implement some basic arithmetic transformations of [1].
+////////////////////////////////////////////////////////////////////////
+
 #ifndef INTEGER_PARTITIONS_COMBINATORICS_BASIC_ARITHMETIC_TRANSFORMATIONS_HPP
 #define INTEGER_PARTITIONS_COMBINATORICS_BASIC_ARITHMETIC_TRANSFORMATIONS_HPP
 
+#include <utility>
+#include <map>
+#include <vector>
+#include <algorithm>
+
+#include "UPVector.hpp"
+
 namespace IPC
 {
-    // The basic arithmetic transform namespace.
-    // Assume all parameters are integer partitions, not just sets.
-    /// @todo Look into better ways of doing these transformation; there are many easy improvements.
     namespace BAT
     {
+        ////////////////////////////////////////////////////////////////////////
+        /// \brief Apply the sum or union transformation of [1] to two sets of integer points.
+        /// \tparam is the integer type of the operand objects.
+        /// \param first is the first set of integer points to sum/unite.
+        /// \param second is the second set of integer points to sum/unite.
+        /// \param horizontal determines if the points are summed row-wise or column-wise.
+        /// \returns the two sets of integer points post-sum/union.
+        ///
+        /// Please refer to [1], p. 9, for the full detailing of the transformation
+        /// that this function aims to mimic.
+        /// NOTE: Pak defines sum as an ordered merging of the columns of two
+        /// sets of points. Similarly, he defines union as an ordered merging of
+        /// the rows of two sets of points.
+        /// Here, both transformations are called sum, where horizontal is true
+        /// when one wishes to perform a Pak sum, and false when one wishes to
+        /// perform a Pak union.
+        /// Input objects are not altered;
+        /// the UPVectors are passed by constant reference and the bool is passed
+        /// by value.
+        ////////////////////////////////////////////////////////////////////////
         template <typename Z>
-        std::vector<Point<Z>> sum(const std::vector<Point<Z>>& lhs,
-                                  const std::vector<Point<Z>>& rhs)
+        UPVector<Z> sum(const UPVector<Z>& first, const UPVector<Z>& second, bool horizontal = true)
         {
-            std::vector<Point<Z>> output;
+            UPVector<Z> output;
 
-            std::map<Z, std::vector<Point<Z>>> lhsColumns;
-            for (auto elnt : lhs)
-                lhsColumns[elnt.x].push_back(elnt);
+            std::map<Z,UPVector<Z>> firstColOrRow;
+            std::map<Z,UPVector<Z>> secondColOrRow;
+            if (horizontal)
+            {
+                for (auto elnt : first)
+                    firstColOrRow[elnt.x].push_back(elnt);
+                for (auto elnt : second)
+                    secondColOrRow[elnt.x].push_back(elnt);
+            }
+            else
+            {
+                for (auto elnt : first)
+                    firstColOrRow[elnt.y].push_back(elnt);
+                for (auto elnt : second)
+                    secondColOrRow[elnt.y].push_back(elnt);
+            }
 
-            std::map<Z, std::vector<Point<Z>>> rhsColumns;
-            for (auto elnt : rhs)
-                rhsColumns[elnt.x].push_back(elnt);
+            std::vector<UPVector<Z>> allColOrRow;
+            for (auto elnt : firstColOrRow)
+                allColOrRow.push_back(elnt.second);
+            for (auto elnt : secondColOrRow)
+                allColOrRow.push_back(elnt.second);
 
-            // AHHH
-            std::vector<std::vector<Point<Z>>> allColumns;
-            for (auto elnt : lhsColumns)
-                allColumns.push_back(elnt.second);
-            for (auto elnt : rhsColumns)
-                allColumns.push_back(elnt.second);
-
-            std::sort(allColumns.begin(), allColumns.end(),
-                      [](const std::vector<Point<Z>>& one, const std::vector<Point<Z>>& two)
+            std::sort(allColOrRow.begin(), allColOrRow.end(),
+                      [](const UPVector<Z>& one, const UPVector<Z>& two)
                         {
                             return one.size() > two.size();
                         });
 
-            for (std::size_t i = 0, n = allColumns.size(); i < n; ++i)
+            if (horizontal)
             {
-                for (auto ielnt : allColumns[i])
+                for (std::size_t i = 0, n = allColOrRow.size(); i < n; ++i)
                 {
-                    ielnt.x = (i + 1);
-                    output.push_back(ielnt);
+                    for (auto ielnt : allColOrRow[i])
+                    {
+                            ielnt.x = (i + 1);
+                            output.push_back(ielnt);
+                    }
+                }
+            }
+            else
+            {
+                for (std::size_t i = 0, n = allColOrRow.size(); i < n; ++i)
+                {
+                    for (auto ielnt : allColOrRow[i])
+                    {
+                            ielnt.y = (i + 1);
+                            output.push_back(ielnt);
+                    }
                 }
             }
 
             return output;
         }
 
-        // Currently named union2 due to union being a reserved word.
+        ////////////////////////////////////////////////////////////////////////
+        /// \brief Apply the sum or union transformation of [1] to two sets of integer points.
+        /// \tparam is the integer type of the operand objects.
+        /// \param upvPair is the pair of integer point sets.
+        /// \param horizontal determines if the points are summed row-wise or column-wise.
+        /// \returns the two sets of integer points post-sum/union.
+        ///
+        /// Please refer to [1], p. 9, for the full detailing of the transformation
+        /// that this function aims to mimic.
+        /// NOTE: Pak defines sum as an ordered merging of the columns of two
+        /// sets of points. Similarly, he defines union as an ordered merging of
+        /// the rows of two sets of points.
+        /// Here, both transformations are called sum, where horizontal is true
+        /// when one wishes to perform a Pak sum, and false when one wishes to
+        /// perform a Pak union.
+        /// Input objects are not altered;
+        /// the UPVector pair is passed by constant reference and the bool is passed
+        /// by value.
+        ////////////////////////////////////////////////////////////////////////
         template <typename Z>
-        std::vector<Point<Z>> union2(const std::vector<Point<Z>>& lhs,
-                                  const std::vector<Point<Z>>& rhs)
+        UPVector<Z> sum(
+                const std::pair<UPVector<Z>,UPVector<Z>>& upvPair, bool horizontal = true)
         {
-            std::vector<Point<Z>> output;
-
-            std::map<Z, std::vector<Point<Z>>> lhsRows;
-            for (auto elnt : lhs)
-                lhsRows[elnt.y].push_back(elnt);
-
-            std::map<Z, std::vector<Point<Z>>> rhsRows;
-            for (auto elnt : rhs)
-                rhsRows[elnt.y].push_back(elnt);
-
-            // AHHH
-            std::vector<std::vector<Point<Z>>> allRows;
-            for (auto elnt : lhsRows)
-                allRows.push_back(elnt.second);
-            for (auto elnt : rhsRows)
-                allRows.push_back(elnt.second);
-
-            std::sort(allRows.begin(), allRows.end(),
-                      [](const std::vector<Point<Z>>& one, const std::vector<Point<Z>>& two)
-                        {
-                            return one.size() > two.size();
-                        });
-
-            for (std::size_t i = 0, n = allRows.size(); i < n; ++i)
-            {
-                for (auto ielnt : allRows[i])
-                {
-                    ielnt.y = (i + 1);
-                    output.push_back(ielnt);
-                }
-            }
-
-            return output;
+            sum(upvPair.first, upvPair.second, horizontal);
         }
     }
 }

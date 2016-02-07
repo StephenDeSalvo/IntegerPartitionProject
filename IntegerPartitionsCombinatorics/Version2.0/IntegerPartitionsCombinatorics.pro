@@ -4,12 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+    IntegerPartitions.cpp \
     main.cpp
 
 HEADERS += \
+    IntegerPartitions.hpp \
+    PartitionTypes.hpp \
+    IPsFunctions.hpp \
     BGT.hpp \
-    BAT.hpp \
-    UniquePoint.hpp \
-    Utility.hpp \
-    UPVector.hpp \
-    ForwardGraph.hpp
+    BAT.hpp
