@@ -44,37 +44,43 @@ RandomPartition* PartitionCreator::generateRandomPartition(int size, enum Partit
             exit(5);
         }
     }
-    
     return partition;
 }
 
 
-RandomPartition* PartitionCreator::rejectionSample(int goal_size) {
+RandomPartition* PartitionCreator::RejectionSample(int goal_size) {
+    //keep a counter to compare the number of partitions with the result
+    int counter = 0;
+    
     RandomPartition* test_partition = nullptr;
     
-    //rerun the algorithm until it works.
-    for (;;)
-    {
-        //keep a counter to compare the number of partitions with the result
-        int counter = 0;
-        
-        //delete the last partition allocation if one exists
-        if (test_partition!=nullptr)
-            delete test_partition;
-        
-        RandomPartition* test_partition = nullptr;
 
-        //use uniform distributions to generate numbers for partition groups.
-        //partition_size[i] is the number of "i" sized partition groups.
-        //Note that we index from 1 to goal_size.
-        
+        //use uniform distributions to generate numbers for partition groups
         test_partition = createPartitionGroups(goal_size,1);
         
-        //count if we generated a partition of the correct size.
+        //delete this below and in the loop and replace it with either <= goal_size or <goal_size,
+        //based on the indexing metric we agree on
+        
+        //int DEBUG_VALID_STOP_POINT = 10000000;
+        
+        //loop through the partition we generate and count all entries to see if we generated valid partitions
+    
+        /*Two ideas for partition indexing.
+     
+     
+         First: zero index value of vector is meaningless or some utility value we may need,
+         and arbitrary index I would 1 to 1 correspond with the number of parts of size I.
+     
+         Second: index from zero like normal, deal with the mental size decrease in all instances
+     
+         To be determined which is preferable.
+         */
+    
+        //sum partition counts here using whichever indexing method we agree is better.
         for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
             counter += i * test_partition->partition_sizes[i];
         }
-
+    
         //conclude if we hit the goal size
         if (counter==goal_size) {
             return test_partition;
@@ -82,29 +88,17 @@ RandomPartition* PartitionCreator::rejectionSample(int goal_size) {
     }
 } 
 
-RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
+RandomPartition* PartitionCreator::PDC_DSH_IP(int goal_size){
     RandomPartition* test_partition = nullptr;
     
-    //rerun the algorithm until it works.
-    for (;;)
-    {
-        //delete the last partition allocation if one exists
-        if (test_partition != nullptr)
-            delete test_partition;
+    test_partition = createPartitionGroups(goal_size,2);
+    //test_partition->partition_sizes.erase(test_partition->partition_sizes.begin()+1);
     
-        test_partition = createPartitionGroups(goal_size,2);
-        //test_partition->partition_sizes.erase(test_partition->partition_sizes.begin()+1);
-        
-        int k = goal_size;
-        for(int i = 2; i <= goal_size; ++i){
-            k -= i*test_partition->partition_sizes[i];
-        }
-        
-        if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))) {
-            //test_partition->partition_sizes.insert(test_partition->partition_sizes.begin()+1, k);
-            test_partition->partition_sizes[1] = k;
-            return test_partition;
-        }
+    double c = 3.14159/sqrt(6.);
+    
+    int k = goal_size;
+    for(int i = 2; i <= goal_size; ++i){
+        k -= i*test_partition->partition_sizes[i];
     }
 }
 
@@ -118,8 +112,19 @@ RandomPartition* PartitionCreator::selfSimilarDivConquerDEFUNCT(int goal_size) {
     //DEBUG
     return nullptr;
     
+    //std::cout << sqrt(goal_size)<<std::endl;
+    //std::cout << k << std::endl;
     
-    /*
+    //std::cout<<exp(-k*c/sqrt(goal_size))<<std::endl;;
+    if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))){
+        //test_partition->partition_sizes.insert(test_partition->partition_sizes.begin()+1, k);
+        test_partition->partition_sizes[1] = k;
+        return test_partition;
+    }
+    else return nullptr;
+}
+/*
+RandomPartition* PartitionCreator::SS_PDC_IP(int goal_size){
     const double c = 3.14159/sqrt(6);
     const double x = 1 - (c / (sqrt(goal_size)));
     int k;
@@ -168,7 +173,7 @@ RandomPartition* PartitionCreator::selfSimilarDivConquerDEFUNCT(int goal_size) {
             return nullptr;
         
         else if(*******){
-            RandomPartition* a = selfSimilarDivConquer(k/2);
+            RandomPartition* a = SS_PDC_IP(k/2);
             for (int i = 1; i <= goal_size/2; i++){
                 test_partition->partition_sizes[2*i] = a->partition_sizes[2*i-1];
                 return test_partition;
@@ -177,10 +182,9 @@ RandomPartition* PartitionCreator::selfSimilarDivConquerDEFUNCT(int goal_size) {
         else return nullptr;
 
     }
-  */
+    
 }
-
-
+*/
 RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos) {
     double c = 3.14159/sqrt(6);
     double x = 1 - (c / (sqrt(size)));
@@ -201,17 +205,10 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
     std::uniform_real_distribution<double> uni_distribution(0.0,1.0);
     U = uni_distribution(generator);
     
-    if(start_pos == 2)
-        x = x*x;
-    for(int i = start_pos; i <= size; i++){
+    double y = x;
     
-        std::geometric_distribution<unsigned int> geo_distribution (1-x);
-        
-        a->partition_sizes[i] = geo_distribution(generator);
-        
-        x = x*x; // add another factor to x.  I.e., x^i --> x^i+1)
-        
-    }
+    //if(start_pos == 2)
+    //    y = x*x;
     
     return a;
 }
@@ -228,39 +225,27 @@ std::vector<int>* RandomPartition::getFerrersIndexes() {
     
     std::vector<int>* ferrersIndexes = new std::vector<int>;
     
-    //loop through all multiplicities
-    for (int i = size; i>1; i--) {
-        int multQuantity = partition_sizes[i];
+        //std::geometric_distribution<unsigned int> geo_distribution (1-y);
         
-        if (multQuantity == 0)
-            continue;
         
-        //push back the size of the value however many times it is present
-        for (int j=0; j<multQuantity; j++) {
-            ferrersIndexes->push_back(i);
-        }
+        a->partition_sizes[i] = floor(log(uni_distribution(generator))/(log(y)*i));
+        
+        //y *= x; // add another factor to x.  I.e., x^i --> x^i+1)
         
     }
     
-    return ferrersIndexes;
+    return a;
 }
 */
 
 int main(){
-    int size = 9;
+    int size = 1000000;
     RandomPartition* test;
-    RandomPartition* test2;
-    
     PartitionCreator* PC = new PartitionCreator();
     
-    test = PC->generateRandomPartition(size, PartitionCreator::rejection_sample);
-    test2 = PC->generateRandomPartition(size, PartitionCreator::div_conquer_deterministic);
+    test = PC->PartitionCreator::generateRandomPartition(size);
     for(int i = 1; i<=size; ++i){
         std::cout << test->partition_sizes[i] << "  ";
-    }
-    std::cout << std::endl;
-    for(int i = 1; i<=size; ++i){
-        std::cout << test2->partition_sizes[i] << "  ";
     }
     std::cout << std::endl;
 }
