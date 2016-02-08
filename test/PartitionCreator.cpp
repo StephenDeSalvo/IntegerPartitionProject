@@ -108,9 +108,13 @@ RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
     }
 }
 
+RandomPartition* PartitionCreator::selfSimilarDivConquer(int goal_size)
+{
+    return nullptr;
+}
 
 
-RandomPartition* PartitionCreator::selfSimilarDivConquerOLD(int goal_size) {
+RandomPartition* PartitionCreator::selfSimilarDivConquerDEFUNCT(int goal_size) {
     //DEBUG
     return nullptr;
     

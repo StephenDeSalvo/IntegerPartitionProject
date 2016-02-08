@@ -27,7 +27,10 @@ public:
 private:
     RandomPartition* rejectionSample(int goal_size);
     RandomPartition* divConquerDeterministic(int goal_size);
-    RandomPartition* selfSimilarDivConquerOLD(int goal_size);
+    RandomPartition* selfSimilarDivConquer(int goal_size);
+    
+    
+    RandomPartition* selfSimilarDivConquerDEFUNCT(int goal_size);
     
     
     RandomPartition* DEBUG_createRejSamplePartGroups(int size,int start_pos);
