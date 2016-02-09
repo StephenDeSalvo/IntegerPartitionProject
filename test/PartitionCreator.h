@@ -13,17 +13,40 @@
 #include <stdio.h>
 #include <vector>
 
+
+class integer_partition {
+public:
+    //std::vector<int>* getFerrersIndexes();
+    std::vector<int>partition_sizes;
+    void printPartition();
+};
+
+
+
+
+
 //To be edited later as updates needed
 class RandomPartition {
 public:
     //std::vector<int>* getFerrersIndexes();
     std::vector<int>partition_sizes;
+    void printPartition();    
 };
+
+
 
 class PartitionCreator {
 public:
+    PartitionCreator();
     enum sampleAlgorithms {rejection_sample, div_conquer_deterministic, self_similar_div_conquer};
+    enum activeRestrictions {none, even_parts, odd_parts};
+    
     RandomPartition* generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms = div_conquer_deterministic);
+    void setRestriction(enum PartitionCreator::activeRestrictions);
+    
+    
+    //debug
+    void poissonGeneration(int size);
 private:
     RandomPartition* rejectionSample(int goal_size);
     RandomPartition* divConquerDeterministic(int goal_size);
@@ -31,12 +54,10 @@ private:
     
     
     RandomPartition* selfSimilarDivConquerDEFUNCT(int goal_size);
-    
-    
-    RandomPartition* DEBUG_createRejSamplePartGroups(int size,int start_pos);
     RandomPartition* createPartitionGroups(int size, int start_pos);
 
     double U;
+    activeRestrictions current_restriction;
 };
 
 #endif /* PartitionCreator_h */
