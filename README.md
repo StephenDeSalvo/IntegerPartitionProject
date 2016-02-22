@@ -1,3 +1,8 @@
+February 21st, 2016<br />
+Added Ryan's implementation of Sylvester's bijection, and the function will now output the point data after each transformation.
+Due to their enormous size, example point data files have not been uploaded.
+In the current main.cpp file, update DSR to some lower value (say, 100 or 10) to speed up the program.
+
 February 1st, 2016<br />
 Implemented Pak's basic geometric/arithmetic transform functions.
 Added an "id" to the point stuct, which MUST be manually initialized if one wishes to use it, for tracking points.
