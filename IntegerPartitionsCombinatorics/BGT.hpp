@@ -19,7 +19,7 @@ namespace IPC
     {
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the shift transformation of [1] to a set of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upv is the UPVector whose points are to be shifted.
         /// \param slm is the SLMatrix2x2 determining the shift.
         /// \return the UPVector post-shift.
@@ -40,7 +40,7 @@ namespace IPC
 
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the move transformation of [1] to a set of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upv is the UPVector whose points are to be moved.
         /// \param a is the amount by which to translate the x-value of the input points.
         /// \param b is the amount by which to translate the y-value of the input points.
@@ -68,7 +68,7 @@ namespace IPC
 
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the cut transformation of [1] to a set of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upv is the UPVector whose points are to be cut.
         /// \param a is a value used to define the line along which the points are to be divided.
         /// \param b is a value used to define the line along which the points are to be divided.
@@ -100,7 +100,7 @@ namespace IPC
             auto i = std::begin(upv);
             while (i != std::end(upv))
             {
-                if ((a*(i->x) + b*(i->y)) >= c)
+                if ((a*(i->x) + b*(i->y)) > c)
                 {
                     upvBottom.push_back(*i);
                     i = upv.erase(i);
@@ -115,7 +115,7 @@ namespace IPC
 
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the paste transformation of [1] to two sets of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upvFirst is the first set of integer points.
         /// \param upvSecond is the second set of integer points
         /// \param validate determines if the upvFirst and upvSecond contain points at the same location.
@@ -154,7 +154,7 @@ namespace IPC
 
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the paste transformation of [1] to two sets of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upvPair is the pair of integer point sets.
         /// \param validate determines if the first and second pair elements contain points at the same location.
         /// \return the two input sets of integer points, post-paste.
@@ -177,7 +177,7 @@ namespace IPC
 
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply a constrained shred transformation of [1] to a set of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upv is the UPVector whose points are to be shredded.
         /// \param horizontal determines if the UPVector is shredded horizontally or vertically.
         /// \return the UPVector post-shred as a pair of UPVectors.
@@ -236,7 +236,7 @@ namespace IPC
 
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the stretch transformation of [1] to a set of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upv is the UPVector whose points are to be stretched.
         /// \param k is a value used to define the stretch.
         /// \param l is a value used to define the stretch.

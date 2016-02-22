@@ -12,4 +12,5 @@ HEADERS += \
     UniquePoint.hpp \
     Utility.hpp \
     UPVector.hpp \
-    ForwardGraph.hpp
+    ForwardGraph.hpp \
+    Bijections.hpp

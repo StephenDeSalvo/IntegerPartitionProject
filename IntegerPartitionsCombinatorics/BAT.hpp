@@ -19,7 +19,7 @@ namespace IPC
     {
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the sum or union transformation of [1] to two sets of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param first is the first set of integer points to sum/unite.
         /// \param second is the second set of integer points to sum/unite.
         /// \param horizontal determines if the points are summed row-wise or column-wise.
@@ -99,7 +99,7 @@ namespace IPC
 
         ////////////////////////////////////////////////////////////////////////
         /// \brief Apply the sum or union transformation of [1] to two sets of integer points.
-        /// \tparam is the integer type of the operand objects.
+        /// \tparam Z is the integer type of the operand objects.
         /// \param upvPair is the pair of integer point sets.
         /// \param horizontal determines if the points are summed row-wise or column-wise.
         /// \returns the two sets of integer points post-sum/union.
