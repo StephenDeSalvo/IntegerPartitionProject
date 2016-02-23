@@ -201,7 +201,9 @@ RandomPartition* PartitionCreator::selfSimilarDivConquerDEFUNCT(int goal_size) {
 void PartitionCreator::poissonGeneration(int size)
 {
     double c = 3.14159/sqrt(6);
-    double x = 1 - (c / (sqrt(size)));
+    double pi = 3.14159;
+    
+    double x = exp(-(c / (sqrt(size))));
     double s=0.0; //get an interval length s
     
     std::vector<double> poissonPositions;
@@ -218,14 +220,22 @@ void PartitionCreator::poissonGeneration(int size)
     part->partition_sizes.push_back(0);
     
     
-    int j=1;
+
+    /*
+    //repeat until double precision breaks down but this is too slow so we do not use this
+    double j=1.0;
     while (1/(j*j)!=0.0) {
         s+=(1/(j*j))*((j*pow(x,j))/(1-pow(x,j))); //see formula 34
         j++;
-    }
+    }*/
     
-    //DEBUG: run a poisson process for unknown lambda
-    double DEBUG_LAMBDA= 1;
+    
+    
+    //supposedly tight bound:
+    s = ((pi*pi)/6)*(x/(1-x));
+    
+    
+    
     
     double time = 0.0;
     int arrivals = 0;
@@ -252,7 +262,7 @@ void PartitionCreator::poissonGeneration(int size)
             
             while (current_target < time)                           //run till we are in an interval
             {
-                part->partition_sizes.push_back(0.0);
+                part->partition_sizes.push_back(0);
                 index++;
                 double next_interval = pow(x,index)/(1-pow(x,index));   //calculate the next interval
                 current_target+=next_interval;
@@ -260,10 +270,11 @@ void PartitionCreator::poissonGeneration(int size)
         }
         poissonPositions.push_back(time);
         arrivals++;                                                 //increment arrivals each time we're in the interval
+    
     }
     
     std::cout << "Printing Poisson values, s is " << s<< " and N(t) is " << arrivals <<  std::endl;
-    for (int i=0; i<poissonPositions.size(); i++)
+    for (int i=0;i<poissonPositions.size(); i++)
         std::cout << poissonPositions[i] << std::endl;
     
     part->printPartition();
@@ -416,8 +427,8 @@ int main() {
     
     std::cout << std::endl;
      */
-    
+
     PartitionCreator* PC = new PartitionCreator();
-    PC->poissonGeneration(100);
+    PC->poissonGeneration(20);
 }
 
