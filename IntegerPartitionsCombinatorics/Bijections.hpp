@@ -25,7 +25,7 @@ namespace IPC
     template <typename Z>
     UPVector<Z> reflect(UPVector<Z> upv)
     {
-        for (auto elnt : upv)
+        for (auto& elnt : upv)
         {
             auto temp = elnt.x;
             elnt.x = elnt.y;

@@ -60,7 +60,7 @@ namespace IPC
 }
 
 ////////////////////////////////////////////////////////////////////////
-/// \brief Outputs a UniquePoint as "x y id".
+/// \brief Outputs a UniquePoint as "x,y,id".
 /// \param os is the stream to which the UniquePoint is output.
 /// \param up is the UniquePoint to be output.
 /// \return the input stream with the UniquePoint output to it.
@@ -68,7 +68,7 @@ namespace IPC
 template <typename Z>
 std::ostream& operator<<(std::ostream& os, const IPC::UniquePoint<Z>& ps)
 {
-    os << ps.x << ' ' << ps.y << ' ' << ps.id;
+    os << ps.x << ',' << ps.y << ',' << ps.id;
     return os;
 }
 
