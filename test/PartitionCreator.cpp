@@ -80,7 +80,7 @@ RandomPartition* PartitionCreator::rejectionSample(int goal_size) {
         test_partition = createPartitionGroups(goal_size,1);
         
         //count if we generated a partition of the correct size.
-        for(int i = 1; i <= test_partition->partition_sizes.size(); ++i){
+        for(int i = 1; i < test_partition->partition_sizes.size(); ++i){
             counter += i * test_partition->partition_sizes[i];
         }
 
@@ -203,7 +203,13 @@ void PartitionCreator::poissonGeneration(int size)
     double c = 3.14159/sqrt(6);
     double pi = 3.14159;
     
-    double x = exp(-(c / (sqrt(size))));
+    //pick an x
+    double x1 = exp(-(c / (sqrt(size))));
+    double x2 = 1 - (c / (sqrt(size)));
+    double x = x1;
+    
+    
+    
     double s=0.0; //get an interval length s
     
     std::vector<double> poissonPositions;
@@ -229,13 +235,9 @@ void PartitionCreator::poissonGeneration(int size)
         j++;
     }*/
     
-    
-    
-    //supposedly tight bound:
+    //tight bound:
     s = ((pi*pi)/6)*(x/(1-x));
-    
-    
-    
+  
     
     double time = 0.0;
     int arrivals = 0;
@@ -251,16 +253,16 @@ void PartitionCreator::poissonGeneration(int size)
         time += val;
         if (time > s) // if outside boundary stop
             flag = false;
-        if (time > current_target) //once we complete the interval we were in
+        if (time > current_target && flag ==  true)                     //once we complete the interval we were in: //DEBUG: No pushing if we're out of bounds
         {
-            part->partition_sizes.push_back(arrivals);              //store the number of arrivals
-            arrivals = 0;                                           //reset arrivals
+            part->partition_sizes.push_back(arrivals);                  //store the number of arrivals
+            arrivals = 0;                                               //reset arrivals
            
             index++;
-            double next_interval = pow(x,index)/(1-pow(x,index));   //calculate the next interval
+            double next_interval = pow(x,index)/(1-pow(x,index));       //calculate the next interval
             current_target+=next_interval;
             
-            while (current_target < time)                           //run till we are in an interval
+            while (current_target < time)                               //run till we are in an interval:
             {
                 part->partition_sizes.push_back(0);
                 index++;
@@ -268,13 +270,24 @@ void PartitionCreator::poissonGeneration(int size)
                 current_target+=next_interval;
             }
         }
-        poissonPositions.push_back(time);
-        arrivals++;                                                 //increment arrivals each time we're in the interval
-    
+        //poissonPositions.push_back(time);
+        if (flag == true)
+            arrivals++;                                                 //increment arrivals each time we're in the interval: //DEBUG: if statement, don't add past end
+        
+        //DEBUG
+        if (arrivals > 100) {
+            int a = 100;
+            a++;
+        }
     }
     
-    std::cout << "Printing Poisson values, s is " << s<< " and N(t) is " << arrivals <<  std::endl;
-    for (int i=0;i<poissonPositions.size(); i++)
+    if (arrivals>0)                                                     //if we still had arrivals queued before we ended, store them.
+        part->partition_sizes.push_back(arrivals);
+    
+    
+    
+    //std::cout << "Printing Poisson values, s is " << s<< " and N(t) is " << arrivals <<  std::endl;
+    for (int i=1; i<poissonPositions.size(); i++)
         std::cout << poissonPositions[i] << std::endl;
     
     part->printPartition();
@@ -357,38 +370,8 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
     return a;
 }
 
-/*
-std::vector<int>* RandomPartition::getFerrersIndexes() {
-    //loop through partitions in reverse order to give ferrer's diagram sizes in a vector:
-    //largest size stored at index 1, smallest at n
-    
-    //no ferrers diagram if there are no partition sizes
-    int size = partition_sizes.size();
-    if (size==0)
-        return nullptr;
-    
-    std::vector<int>* ferrersIndexes = new std::vector<int>;
-    
-    //loop through all multiplicities
-    for (int i = size; i>1; i--) {
-        int multQuantity = partition_sizes[i];
-        
-        if (multQuantity == 0)
-            continue;
-        
-        //push back the size of the value however many times it is present
-        for (int j=0; j<multQuantity; j++) {
-            ferrersIndexes->push_back(i);
-        }
-        
-    }
-    
-    return ferrersIndexes;
-}
-*/
-
 void RandomPartition::printPartition(){
-    for(int i = 1; i<=partition_sizes.size()-1; ++i){
+    for(int i = 1; i<partition_sizes.size(); ++i){
         std::cout << partition_sizes[i] << "  ";
     }
     std::cout << std::endl;
@@ -428,7 +411,12 @@ int main() {
     std::cout << std::endl;
      */
 
+    
     PartitionCreator* PC = new PartitionCreator();
-    PC->poissonGeneration(20);
+    /*
+    for (int i = 0; i<1000; i++)
+    {
+        PC->poissonGeneration(20);
+    }*/
 }
 
