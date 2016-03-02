@@ -384,7 +384,7 @@ void poissonGenerationAttemptTwo(int size)
         //if we finished the poisson, stop, we're done. Throw cleanup operations here if you have any.
         if (poisson_complete) {
             part->printPartition();
-            part->sumPartition();
+            //part->sumPartition();
             return;
         }
         
@@ -614,13 +614,13 @@ void RandomPartition::printPartition(){
     std::cout << std::endl;
 }
 
-void RandomPartition::sumPartition(){
+/*void RandomPartition::sumPartition(){
     int size = 0;
     for(int i = 1; i<partition_sizes.size(); ++i){
-        size += partition_sizes[i];
+        size += i*partition_sizes[i];
     }
     std::cout << size << std::endl;
-}
+}*/
 
 
 int main() {
