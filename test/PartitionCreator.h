@@ -31,7 +31,7 @@ public:
     //std::vector<int>* getFerrersIndexes();
     std::vector<int>partition_sizes;
     void printPartition();
-    void sumPartition();
+    int sumPartition();
 };
 
 

@@ -287,7 +287,7 @@ double getEndOfPoisson(int size) {
 }
 
 
-void poissonGenerationAttemptTwo(int size)
+int poissonGenerationAttemptTwo(int size)
 {
     //probability stuff we need
     time_t seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -384,8 +384,8 @@ void poissonGenerationAttemptTwo(int size)
         //if we finished the poisson, stop, we're done. Throw cleanup operations here if you have any.
         if (poisson_complete) {
             part->printPartition();
-            //part->sumPartition();
-            return;
+            int i = part->sumPartition();
+            return i;
         }
         
         //We will need to keep track of the z value preceding our new arrival
@@ -614,13 +614,14 @@ void RandomPartition::printPartition(){
     std::cout << std::endl;
 }
 
-/*void RandomPartition::sumPartition(){
+int RandomPartition::sumPartition(){
     int size = 0;
     for(int i = 1; i<partition_sizes.size(); ++i){
         size += i*partition_sizes[i];
     }
     std::cout << size << std::endl;
-}*/
+    return size;
+}
 
 
 int main() {
@@ -658,9 +659,20 @@ int main() {
     
     //DEBUG
     using namespace std;
-
     
-    poissonGenerationAttemptTwo(30);
+    int j = 0;
+    int ctr = 0;
+    double runningSum = 0;
+    double runningAverage = 0;
+    while (j != 100)
+    {
+        j = poissonGenerationAttemptTwo(100000);
+        ctr++;
+        runningSum += j;
+        runningAverage = runningSum/ctr;
+    }
+    
+    if (1==1){}
     
     /*for (int j = 1; j<100; j+=10) //size
     {
