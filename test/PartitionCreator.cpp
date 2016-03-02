@@ -223,8 +223,32 @@ double getNextTargetLen(int current_z_interval, int current_y_interval, int size
     return pow(a,exponent_term)/ current_y_interval;
 }
 
-//calculate j, the interval end for a single z multiplicity
+
+//Find the length over which the current multiplicities' 'a' values will converge
 double getZIntervalEnd(int current_z_interval, int size) {
+
+    double error_bound = pow(2.0,-52);
+    
+    double past_val_1 = 0.0;
+    double past_val_2 = -10000.0; //quickly erased in next step...
+    
+    int curr_interval = 0;
+    
+    //stop when no distance gained implying s has converged
+    while (past_val_1-past_val_2>=error_bound)
+    {
+        past_val_2=past_val_1;
+        curr_interval++;
+        double next_interval_length = getNextTargetLen(current_z_interval, curr_interval, size);
+        past_val_1 += next_interval_length;
+    }
+    
+    return past_val_1;
+}
+
+
+//calculate j, the interval end for a single z multiplicity
+double getZIntervalEndUsingJ(int current_z_interval, int size) {
     double c = 3.14159/sqrt(6);
     double e = 2.718;
     
@@ -242,7 +266,6 @@ double getEndOfPoisson(int size) {
     double c = 3.14159/sqrt(6);
     double x = exp(-(c / (sqrt(size))));
     
-    double curr_sum = 0.0;
     double error_bound = pow(2.0,-52);
     
     double past_val_1 = 0.0;
@@ -319,26 +342,7 @@ void poissonGenerationAttemptTwo(int size)
             
             //if the current distribution has exited the interval it's currently in:
             if (curr_pos >= next_target) {
-                
-                //the geometric variable z_i is calculated as the sum of arrivals in yi times i.
-                //store arrivals times the current interval into the running geometric
-                
-                running_geometric += curr_interval * arrivals;
-                arrivals = 0;
-                curr_interval++;
-                
-                //find the next target position
-                double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
-                next_target += next_interval_length;
-                
-                //until we're back in an interval, just keep incrementing intervals
-                while  (next_target < curr_pos)
-                {
-                    curr_interval++;
-                    double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
-                    next_target += next_interval_length;
-                }
-                
+            
                 
             }
             
@@ -365,9 +369,12 @@ void poissonGenerationAttemptTwo(int size)
             return;
         }
         
+        //We will need to keep track of the z value preceding our new arrival
+        double prev_z_end = end_of_curr_z;
+        
         //We're still going => we're not done with the poisson. increment the z interval once.
         curr_z++;
-        end_of_curr_z = getZIntervalEnd(curr_z, size);
+        end_of_curr_z += getZIntervalEnd(curr_z, size);
         
         //Until we're back in a z interval we've not reached the end of, any further increments implies empty intervals
         //keep pushing zeros and incrementing the counter
@@ -375,7 +382,8 @@ void poissonGenerationAttemptTwo(int size)
         while (end_of_curr_z <  curr_pos) {
             part->partition_sizes.push_back(0);
             curr_z++;
-            end_of_curr_z = getZIntervalEnd(curr_z, size);
+            prev_z_end = end_of_curr_z;
+            end_of_curr_z += getZIntervalEnd(curr_z, size);
         }
         
         //Reset the arrival count, this will be the first one in the new interval
@@ -386,8 +394,7 @@ void poissonGenerationAttemptTwo(int size)
         curr_interval = 1;
         
         //New interval begins where the previous one ended.
-        double prev_j = getZIntervalEnd(curr_z-1, size);
-        next_target = prev_j + getNextTargetLen(curr_z, curr_interval, size);
+        next_target = prev_z_end + getNextTargetLen(curr_z, curr_interval, size);
         
         //increment current interval and next_target until we have a goal we're not past
         while (next_target < curr_pos)
