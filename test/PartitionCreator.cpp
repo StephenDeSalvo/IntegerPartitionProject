@@ -196,6 +196,219 @@ RandomPartition* PartitionCreator::selfSimilarDivConquerDEFUNCT(int goal_size) {
 
 //DEBUG
 
+void detectTrapped(int& ctr){
+    if (ctr<1000000)
+        ctr++;
+    else
+    {
+        std::string a;
+        std::cout << "Trapped.";
+    }
+}
+
+
+//calculate A baseed on z, the random variable we're calculating for
+double getAValue(int current_z_interval, int size){
+    double c = 3.14159/sqrt(6);
+    double x = exp(-(c / (sqrt(size))));
+    return 1.0-pow(x,current_z_interval);
+}
+
+//return the length of the next target section
+double getNextTargetLen(int current_z_interval, int current_y_interval, int size) {
+    
+    double a = getAValue(current_z_interval, size);
+    int exponent_term = current_z_interval * current_y_interval;
+    
+    return pow(a,exponent_term)/ current_y_interval;
+}
+
+//calculate j, the interval end for a single z multiplicity
+double getZIntervalEnd(int current_z_interval, int size) {
+    double c = 3.14159/sqrt(6);
+    double e = 2.718;
+    
+    double i = current_z_interval;
+    
+    double power = ((-c * i)/sqrt(size));
+    double epow = pow(e, power);
+    
+    return -52.0/log(1-epow);
+}
+
+
+//Generate s, the end of the poisson process.
+double getEndOfPoisson(int size) {
+    double c = 3.14159/sqrt(6);
+    double x = exp(-(c / (sqrt(size))));
+    
+    double curr_sum = 0.0;
+    double error_bound = pow(2.0,-52);
+    
+    double past_val_1 = 0.0;
+    double past_val_2 = -10000.0; //quickly erased in next step...
+    
+    int j = 1;
+    
+    //stop when no distance gained implying s has converged
+    while (past_val_1-past_val_2>=error_bound)
+    {
+        past_val_2 = past_val_1;
+        past_val_1 += 1.0/(j*j) * (j*(pow(x,j)) /(1.0-pow(x,j)));
+        j++;
+    
+    }
+    
+    return past_val_1;
+    
+}
+
+
+void poissonGenerationAttemptTwo(int size)
+{
+    //probability stuff we need
+    time_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator ((unsigned int)seed);
+    std::exponential_distribution<double> exp_distribution(1);
+    
+    //find the next interval divider in a geometric random variable z
+    double next_target = getAValue(1, size);
+    double end_of_curr_z = getZIntervalEnd(1, size);
+    double end_of_poisson = getEndOfPoisson(size);
+    double curr_pos = 0.0;
+    
+    //set up a partition we're building
+    RandomPartition* part = new RandomPartition();
+    part->partition_sizes.push_back(0);
+    
+    //curr interval tracks the intervals that comprise a geometric random variable
+    //curr z gives the multiplicity given by the geometric variable we're currently building
+    int curr_interval = 1;
+    int curr_z = 1;
+    
+    //stores the current value for an in progress zi
+    int running_geometric = 0;
+    //helps keep the geometric
+    int arrivals = 0;
+    
+    //stop when the poisson is done
+    bool poisson_complete = false;
+    
+    
+    //keep going for each z_i
+    for (;;)
+    {
+        //go through intervals repeatedly adding by exponential amounts to the current position
+        for (;;)
+        {
+            //update current position
+            curr_pos+=exp_distribution(generator);
+            
+            //if the current position has exited the distribution, update the geometric and break out to abort.
+            if (curr_pos >= end_of_poisson) {
+                running_geometric += curr_interval * arrivals;
+                poisson_complete = true;
+                break;
+            }
+            
+            //if the current position has completed the z_i, update the geometric and break out to start the next one
+            if (curr_pos >= end_of_curr_z) {
+                running_geometric += curr_interval * arrivals;
+                break;
+            }
+            
+            //if the current distribution has exited the interval it's currently in:
+            if (curr_pos >= next_target) {
+                
+                //the geometric variable z_i is calculated as the sum of arrivals in yi times i.
+                //store arrivals times the current interval into the running geometric
+                
+                running_geometric += curr_interval * arrivals;
+                arrivals = 0;
+                curr_interval++;
+                
+                //find the next target position
+                double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
+                next_target += next_interval_length;
+                
+                //until we're back in an interval, just keep incrementing intervals
+                while  (next_target < curr_pos)
+                {
+                    curr_interval++;
+                    double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
+                    next_target += next_interval_length;
+                }
+                
+                
+            }
+            
+            //We're either the first arrival of a new interval or another arrival in a current interval.
+            
+            //Either way, incrememnt our arrivals and continue this process of interval arrival counting
+            arrivals++;
+        }
+        
+        
+        ////////
+        ///
+        ///     Above multiplicity loop completed
+        ///
+        ////////
+        
+        
+        //We just finished an interval or the poisson: Store the current geometric in the vector
+        part->partition_sizes.push_back(running_geometric);
+        
+        //if we finished the poisson, stop, we're done. Throw cleanup operations here if you have any.
+        if (poisson_complete) {
+            part->printPartition();
+            return;
+        }
+        
+        //We're still going => we're not done with the poisson. increment the z interval once.
+        curr_z++;
+        end_of_curr_z = getZIntervalEnd(curr_z, size);
+        
+        //Until we're back in a z interval we've not reached the end of, any further increments implies empty intervals
+        //keep pushing zeros and incrementing the counter
+        
+        while (end_of_curr_z <  curr_pos) {
+            part->partition_sizes.push_back(0);
+            curr_z++;
+            end_of_curr_z = getZIntervalEnd(curr_z, size);
+        }
+        
+        //Reset the arrival count, this will be the first one in the new interval
+        arrivals = 1;
+        
+        //We need to find what interval in the current z_i we're starting in, though we know we will be in one since we're not
+        //past the end of the poisson and some z_i exists bigger than our current position.
+        curr_interval = 1;
+        
+        //New interval begins where the previous one ended.
+        double prev_j = getZIntervalEnd(curr_z-1, size);
+        next_target = prev_j + getNextTargetLen(curr_z, curr_interval, size);
+        
+        //increment current interval and next_target until we have a goal we're not past
+        while (next_target < curr_pos)
+        {
+            curr_interval++;
+            double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
+            next_target += next_interval_length;
+        }
+        
+        //Last prep step: reset the running geometric so the next interval's sum begins at zero
+        running_geometric = 0;
+    }
+}
+
+
+
+
+
+
+
+
 
 
 void PartitionCreator::poissonGeneration(int size)
@@ -212,7 +425,7 @@ void PartitionCreator::poissonGeneration(int size)
     
     double s=0.0; //get an interval length s
     
-    std::vector<double> poissonPositions;
+    //std::vector<double> poissonPositions;
     
     time_t seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator ((unsigned int)seed);
@@ -225,6 +438,9 @@ void PartitionCreator::poissonGeneration(int size)
     RandomPartition* part = new RandomPartition;
     part->partition_sizes.push_back(0);
     
+    
+    //debug: find out if we've done too many iterations in the function
+    int trapped=0;
     
 
     /*
@@ -268,17 +484,12 @@ void PartitionCreator::poissonGeneration(int size)
                 index++;
                 double next_interval = pow(x,index)/(1-pow(x,index));   //calculate the next interval
                 current_target+=next_interval;
+                detectTrapped(trapped);
             }
         }
         //poissonPositions.push_back(time);
         if (flag == true)
             arrivals++;                                                 //increment arrivals each time we're in the interval: //DEBUG: if statement, don't add past end
-        
-        //DEBUG
-        if (arrivals > 100) {
-            int a = 100;
-            a++;
-        }
     }
     
     if (arrivals>0)                                                     //if we still had arrivals queued before we ended, store them.
@@ -287,8 +498,8 @@ void PartitionCreator::poissonGeneration(int size)
     
     
     //std::cout << "Printing Poisson values, s is " << s<< " and N(t) is " << arrivals <<  std::endl;
-    for (int i=1; i<poissonPositions.size(); i++)
-        std::cout << poissonPositions[i] << std::endl;
+    /*for (int i=1; i<poissonPositions.size(); i++)
+        std::cout << poissonPositions[i] << std::endl;*/
     
     part->printPartition();
     
@@ -410,13 +621,25 @@ int main() {
     
     std::cout << std::endl;
      */
+    
+    //DEBUG
+    using namespace std;
 
     
-    PartitionCreator* PC = new PartitionCreator();
+    poissonGenerationAttemptTwo(30);
+    for (int j = 1; j<100; j+=10) //size
+    {
+        for (int i = 1; i <100; i++) //current interval
+        {
+            cout << i << ", " << j << " " << getZIntervalEnd(i, j) << "   " << getEndOfPoisson(j) << endl;
+        }
+    }
     /*
+    PartitionCreator* PC = new PartitionCreator();
     for (int i = 0; i<1000; i++)
     {
-        PC->poissonGeneration(20);
-    }*/
+        PC->poissonGeneration(100);
+    }
+     */
 }
 
