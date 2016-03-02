@@ -227,6 +227,7 @@ double getNextTargetLen(int current_z_interval, int current_y_interval, int size
 //Find the length over which the current multiplicities' 'a' values will converge
 double getZIntervalEnd(int current_z_interval, int size) {
 
+    
     double error_bound = pow(2.0,-52);
     
     double past_val_1 = 0.0;
@@ -689,11 +690,12 @@ int main() {
     
     //calculate size of each z interval for a partition of size 100
     
-    cout << getZIntervalEnd(1, 100) << endl;
     for (int i = 1; i<100; i++)
     {
         double a = getZIntervalEnd(i, 100);
         double b = getZIntervalEnd(i+1, 100);
+        cout << "a in z_" << i << " is " << getAValue(i, 100) << endl;
+        cout << "a in z_" << i+1 << " is " << getAValue(i, 100) << endl;
         cout << b - a << endl;
     }
         
