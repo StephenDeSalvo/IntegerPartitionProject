@@ -261,6 +261,18 @@ double getZIntervalEndUsingJ(int current_z_interval, int size) {
 }
 
 
+double getEndOfPoissonUsingUpperBound (int size) {
+    
+    //generate s, end of poisson process, using upper bounding
+    
+    double c = 3.14159/sqrt(6);
+    double pi = 3.141592;
+    double x = exp(-(c / (sqrt(size))));
+    
+    return ((pi*pi)/6)*(x/(1-x));
+
+}
+
 //Generate s, the end of the poisson process.
 double getEndOfPoisson(int size) {
     double c = 3.14159/sqrt(6);
@@ -666,14 +678,25 @@ int main() {
     double runningAverage = 0;
     PartitionCreator creator;
     RandomPartition* part = nullptr;
-    while (j != 100000)
+    while (j != 100)
     {
-        j = poissonGenerationAttemptTwo(100000);
+        j=100;
+        //j = poissonGenerationAttemptTwo(100);
         ctr++;
         runningSum += j;
         runningAverage = runningSum/ctr;
     }
     
+    //calculate size of each z interval for a partition of size 100
+    
+    cout << getZIntervalEnd(1, 100) << endl;
+    for (int i = 1; i<100; i++)
+    {
+        double a = getZIntervalEnd(i, 100);
+        double b = getZIntervalEnd(i+1, 100);
+        cout << b - a << endl;
+    }
+        
     
     /*for (int j = 1; j<100; j+=10) //size
     {
