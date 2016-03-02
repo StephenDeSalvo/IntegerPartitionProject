@@ -664,7 +664,9 @@ int main() {
     int ctr = 0;
     double runningSum = 0;
     double runningAverage = 0;
-    while (j != 100)
+    PartitionCreator creator;
+    RandomPartition* part = nullptr;
+    while (j != 100000)
     {
         j = poissonGenerationAttemptTwo(100000);
         ctr++;
@@ -672,7 +674,6 @@ int main() {
         runningAverage = runningSum/ctr;
     }
     
-    if (1==1){}
     
     /*for (int j = 1; j<100; j+=10) //size
     {
