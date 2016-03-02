@@ -342,7 +342,25 @@ void poissonGenerationAttemptTwo(int size)
             
             //if the current distribution has exited the interval it's currently in:
             if (curr_pos >= next_target) {
-            
+                
+                //the geometric variable z_i is calculated as the sum of arrivals in yi times i.
+                //store arrivals times the current interval into the running geometric
+                
+                running_geometric += curr_interval * arrivals;
+                arrivals = 0;
+                curr_interval++;
+                
+                //find the next target position
+                double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
+                next_target += next_interval_length;
+                
+                //until we're back in an interval, just keep incrementing intervals
+                while  (next_target < curr_pos)
+                {
+                    curr_interval++;
+                    double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
+                    next_target += next_interval_length;
+                }
                 
             }
             
@@ -366,6 +384,7 @@ void poissonGenerationAttemptTwo(int size)
         //if we finished the poisson, stop, we're done. Throw cleanup operations here if you have any.
         if (poisson_complete) {
             part->printPartition();
+            part->sumPartition();
             return;
         }
         
@@ -595,6 +614,14 @@ void RandomPartition::printPartition(){
     std::cout << std::endl;
 }
 
+void RandomPartition::sumPartition(){
+    int size = 0;
+    for(int i = 1; i<partition_sizes.size(); ++i){
+        size += partition_sizes[i];
+    }
+    std::cout << size << std::endl;
+}
+
 
 int main() {
     /*
@@ -634,13 +661,15 @@ int main() {
 
     
     poissonGenerationAttemptTwo(30);
-    for (int j = 1; j<100; j+=10) //size
+    
+    /*for (int j = 1; j<100; j+=10) //size
     {
         for (int i = 1; i <100; i++) //current interval
         {
             cout << i << ", " << j << " " << getZIntervalEnd(i, j) << "   " << getEndOfPoisson(j) << endl;
         }
-    }
+    }*/
+    
     /*
     PartitionCreator* PC = new PartitionCreator();
     for (int i = 0; i<1000; i++)

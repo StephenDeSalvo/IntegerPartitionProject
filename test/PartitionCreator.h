@@ -30,7 +30,8 @@ class RandomPartition {
 public:
     //std::vector<int>* getFerrersIndexes();
     std::vector<int>partition_sizes;
-    void printPartition();    
+    void printPartition();
+    void sumPartition();
 };
 
 
