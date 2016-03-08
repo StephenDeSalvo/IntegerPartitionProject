@@ -39,8 +39,6 @@ private:
     RandomPartition* divConquerDeterministic(int goal_size);
     RandomPartition* selfSimilarDivConquer(int goal_size);
     
-    
-    RandomPartition* selfSimilarDivConquerDEFUNCT(int goal_size);
     RandomPartition* createPartitionGroups(int size, int start_pos);
     RandomPartition* createPartitionGroupsWithBernoulli(int size);
 
