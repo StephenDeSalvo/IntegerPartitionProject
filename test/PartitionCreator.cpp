@@ -25,7 +25,6 @@ void PartitionCreator::setRestriction(enum PartitionCreator::activeRestrictions 
 }
 
 RandomPartition* PartitionCreator::generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms algo) {
-
     //error handling: do not generate partitions of size zero or less
     if (size<=0)
         return nullptr;
@@ -661,8 +660,9 @@ void appendToFile(std::string filename, RandomPartition* partition)
 
 
 
-//int main() {
-    /*
+//int main()
+/*
+ {
     int size = 17;
     RandomPartition* test;
     RandomPartition* test_2;
