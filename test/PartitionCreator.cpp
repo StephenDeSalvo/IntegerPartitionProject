@@ -563,7 +563,8 @@ void PartitionCreator::poissonGeneration(int size)
 
 RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos) {
     double c = 3.14159/sqrt(6);
-    double x = 1 - (c / (sqrt(2*size)));
+    double x = 1 - (c / (sqrt(size))); //to make the normal generation go faster, if there's a 2* in front of size, delete it
+    //to make odd parts faster, add a 2* in front of the size term.
     
     int iter_size = 1; //go one sized steps unless restrictions active
     
@@ -618,12 +619,12 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
     double log_y = log(y);
     
     
-    for(int i = start_pos; i <= size; i+=iter_size) { //changing to iter size allows odd sampling
+    for (int i = start_pos; i <= size; i+=iter_size) { //changing to iter size allows odd sampling
     
         //std::geometric_distribution<unsigned int> geo_distribution (1-y);
         
-        
-        a->partition_sizes[i] = floor(log(uni_distribution(generator))/(log_y*i));
+        int mult_size = floor(log(uni_distribution(generator))/(log_y*i));
+        a->partition_sizes[i] = mult_size;
         
         //y *= x; // add another factor to x.  I.e., x^i --> x^i+1)
         
@@ -791,13 +792,13 @@ int main() {
     PartitionCreator creator;
     RandomPartition* part = nullptr;
     
-    /*
-    for (int i = 0; i<11; i++)
+    
+    for (int i = 0; i<100; i++)
     {
         part = creator.generateRandomPartition(10000);
-        //appendToFile("random_partition_size_100000", part);
+        appendToFile("random_partition_size_10000", part);
         delete part;
-    }*/
+    }
     
     
     /*
