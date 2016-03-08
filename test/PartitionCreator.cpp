@@ -12,7 +12,8 @@
 #include <random>
 #include <chrono>
 #include <iostream>
-
+#include <fstream>
+#include <sstream>
 
 PartitionCreator::PartitionCreator() {
     current_restriction = none;
@@ -210,9 +211,17 @@ void detectTrapped(int& ctr){
 //calculate A baseed on z, the random variable we're calculating for
 double getAValue(int current_z_interval, int size){
     double c = 3.14159/sqrt(6);
-    double x = exp(-(c / (sqrt(size))));
-    return 1.0-pow(x,current_z_interval);
+    double x = exp(-((c*current_z_interval) / (sqrt(size))));
+    return x;
 }
+
+double getAValueFixed(int current_z_interval, int size){
+    double c = 3.14159/sqrt(6);
+    return c/sqrt(size);
+}
+
+
+
 
 //return the length of the next target section
 double getNextTargetLen(int current_z_interval, int current_y_interval, int size) {
@@ -222,7 +231,6 @@ double getNextTargetLen(int current_z_interval, int current_y_interval, int size
     
     return pow(a,exponent_term)/ current_y_interval;
 }
-
 
 //Find the length over which the current multiplicities' 'a' values will converge
 double getZIntervalEnd(int current_z_interval, int size) {
@@ -242,6 +250,7 @@ double getZIntervalEnd(int current_z_interval, int size) {
         curr_interval++;
         double next_interval_length = getNextTargetLen(current_z_interval, curr_interval, size);
         past_val_1 += next_interval_length;
+        //std::cout << past_val_1 << std::endl;
     }
     
     return past_val_1;
@@ -410,12 +419,15 @@ int poissonGenerationAttemptTwo(int size)
         
         //Until we're back in a z interval we've not reached the end of, any further increments implies empty intervals
         //keep pushing zeros and incrementing the counter
+        double z_interval_len=1;
+        double flo = pow(2.,-50);
         
-        while (end_of_curr_z <  curr_pos) {
+        while (end_of_curr_z <  curr_pos && z_interval_len >= flo) {
             part->partition_sizes.push_back(0);
             curr_z++;
             prev_z_end = end_of_curr_z;
-            end_of_curr_z += getZIntervalEnd(curr_z, size);
+            z_interval_len = getZIntervalEnd(curr_z, size);
+            end_of_curr_z += z_interval_len;
         }
         
         //Reset the arrival count, this will be the first one in the new interval
@@ -428,11 +440,12 @@ int poissonGenerationAttemptTwo(int size)
         //New interval begins where the previous one ended.
         next_target = prev_z_end + getNextTargetLen(curr_z, curr_interval, size);
         
+        double next_interval_length = 1;
         //increment current interval and next_target until we have a goal we're not past
-        while (next_target < curr_pos)
+        while (next_target < curr_pos && next_interval_length >= flo)
         {
             curr_interval++;
-            double next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
+            next_interval_length = getNextTargetLen(curr_z, curr_interval, size);
             next_target += next_interval_length;
         }
         
@@ -550,7 +563,7 @@ void PartitionCreator::poissonGeneration(int size)
 
 RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos) {
     double c = 3.14159/sqrt(6);
-    double x = 1 - (c / (sqrt(size)));
+    double x = 1 - (c / (sqrt(2*size)));
     
     int iter_size = 1; //go one sized steps unless restrictions active
     
@@ -577,13 +590,9 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
     }
     else if (current_restriction == activeRestrictions::odd_parts)
     {
-        //start from one higher position if we begin at two
-        if (start_pos == 2)
-            start_pos++;
+        start_pos = 1;
         iter_size = 2;
     }
-    
-    
     
     //use geometric distributions to generate numbers for partition groups here
     
@@ -606,12 +615,15 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
     //if(start_pos == 2)
     //    y = x*x;
     
+    double log_y = log(y);
+    
+    
     for(int i = start_pos; i <= size; i+=iter_size) { //changing to iter size allows odd sampling
     
         //std::geometric_distribution<unsigned int> geo_distribution (1-y);
         
         
-        a->partition_sizes[i] = floor(log(uni_distribution(generator))/(log(y)*i));
+        a->partition_sizes[i] = floor(log(uni_distribution(generator))/(log_y*i));
         
         //y *= x; // add another factor to x.  I.e., x^i --> x^i+1)
         
@@ -619,6 +631,50 @@ RandomPartition* PartitionCreator::createPartitionGroups(int size,int start_pos)
     
     return a;
 }
+
+
+RandomPartition* PartitionCreator::createPartitionGroupsWithBernoulli(int size) {
+    double c = 3.14159/sqrt(6);
+    double x = 1 - (c / (2*sqrt(size)));
+    
+    int iter_size = 1; //go one sized steps unless restrictions active
+    
+    //use geometric distributions to generate numbers for partition groups here
+    
+    RandomPartition* a = new RandomPartition();
+    
+    time_t seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator ((unsigned int)seed);
+    
+    a->partition_sizes.resize(size+1);
+    a->partition_sizes[0] = 0;
+    
+    std::uniform_real_distribution<double> uni_distribution(0.0,1.0);
+    U = uni_distribution(generator);
+    
+    double xx = x;
+    
+    for(int i = 1; i <= size; i+=2) { //changing to iter size allows odd sampling
+        
+        //std::geometric_distribution<unsigned int> geo_distribution (1-y);
+        
+        
+        //bernoulli generation
+        //x = e c thing
+        //x over 1 plus x
+        //each time the loop goes through update:
+        //xx= x;
+        //part[i] = U < xx/1+xx ? 1 : 0;
+        //xx*=x*x;
+        
+        a->partition_sizes[i] = (uni_distribution(generator) < xx/ (1+xx)) ? 1 : 0;
+        xx *= x*x;
+    }
+    
+    return a;
+}
+
+
 
 void RandomPartition::printPartition(){
     for(int i = 1; i<partition_sizes.size(); ++i){
@@ -635,6 +691,61 @@ int RandomPartition::sumPartition(){
     std::cout << size << std::endl;
     return size;
 }
+
+
+
+RandomPartition* PartitionCreator::generateOddDistinct(int goal_size) {
+    RandomPartition* test_partition = nullptr;
+    
+    //rerun the algorithm until it works.
+    for (;;)
+    {
+        //keep a counter to compare the number of partitions with the result
+        int counter = 0;
+        
+        //delete the last partition allocation if one exists
+        if (test_partition!=nullptr)
+            delete test_partition;
+        
+        RandomPartition* test_partition = nullptr;
+        
+        //use uniform distributions to generate numbers for partition groups.
+        //partition_size[i] is the number of "i" sized partition groups.
+        //Note that we index from 1 to goal_size.
+        
+        test_partition = createPartitionGroupsWithBernoulli(goal_size);
+        
+        //count if we generated a partition of the correct size.
+        for(int i = 1; i < test_partition->partition_sizes.size(); ++i){
+            counter += i * test_partition->partition_sizes[i];
+        }
+        
+        //conclude if we hit the goal size
+        if (counter==goal_size) {
+            return test_partition;
+        }
+    }
+}
+
+
+void appendToFile(std::string filename, RandomPartition* partition)
+{
+    std::ofstream filebuf;
+    filebuf.open((filename + ".txt"), std::ios::app);
+    if (filebuf.is_open())
+    {
+        std::cout << "It's open!!!" ;
+    
+    
+        for (int i = 1; i<partition->partition_sizes.size(); i++)
+        {
+            filebuf << partition->partition_sizes[i] << ",";
+        }
+        filebuf << "@" << std::endl;
+        filebuf.close();
+    }
+}
+
 
 
 int main() {
@@ -679,26 +790,58 @@ int main() {
     double runningAverage = 0;
     PartitionCreator creator;
     RandomPartition* part = nullptr;
-    while (j != 100)
+    
+    /*
+    for (int i = 0; i<11; i++)
     {
-        j=100;
-        //j = poissonGenerationAttemptTwo(100);
+        part = creator.generateRandomPartition(10000);
+        //appendToFile("random_partition_size_100000", part);
+        delete part;
+    }*/
+    
+    
+    /*
+    part = creator.oddDistinctGen(100000);
+    part->printPartition();
+    cout << endl;
+    part->sumPartition();
+    */
+    
+    /*
+    part = creator.generateRandomPartition(100000);
+    part->printPartition();
+    cout << endl;
+    part->sumPartition();
+    */
+    
+    
+    /*
+    while (j != 1000)
+    {
+        //j=100;
+        j = poissonGenerationAttemptTwo(1000);
         ctr++;
         runningSum += j;
         runningAverage = runningSum/ctr;
-    }
+    }*/
+    
+    /*
+    part = creator.generateRandomPartition(100000);
+    part->printPartition();*/
+    
     
     //calculate size of each z interval for a partition of size 100
     
+    /*
     for (int i = 1; i<100; i++)
     {
         double a = getZIntervalEnd(i, 100);
-        double b = getZIntervalEnd(i+1, 100);
-        cout << "a in z_" << i << " is " << getAValue(i, 100) << endl;
-        cout << "a in z_" << i+1 << " is " << getAValue(i, 100) << endl;
-        cout << b - a << endl;
+        //double b = getZIntervalEnd(i+1, 100);
+        //cout << "a in z_" << i << " is " << getAValue(i, 100) << endl;
+        //cout << "a in z_" << i+1 << " is " << getAValue(i, 100) << endl;
+        //cout << b - a << endl;
     }
-        
+        */
     
     /*for (int j = 1; j<100; j+=10) //size
     {

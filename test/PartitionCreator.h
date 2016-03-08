@@ -46,6 +46,8 @@ public:
     void setRestriction(enum PartitionCreator::activeRestrictions);
     
     
+    RandomPartition* generateOddDistinct(int goal_size);
+    
     //debug
     void poissonGeneration(int size);
 private:
@@ -56,6 +58,7 @@ private:
     
     RandomPartition* selfSimilarDivConquerDEFUNCT(int goal_size);
     RandomPartition* createPartitionGroups(int size, int start_pos);
+    RandomPartition* createPartitionGroupsWithBernoulli(int size);
 
     double U;
     activeRestrictions current_restriction;
