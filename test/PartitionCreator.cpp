@@ -443,37 +443,39 @@ void PartitionCreator::poissonGeneration(int size)
         time += val;
         if (time > s) // if outside boundary stop
             flag = false;
-        if (time > current_target && flag ==  true)                     //once we complete the interval we were in: //DEBUG: No pushing if we're out of bounds
+        //once we complete the interval we were in: //DEBUG: No pushing if we're out of bounds
+        if (time > current_target && flag ==  true)
         {
-            part->partition_sizes.push_back(arrivals);                  //store the number of arrivals
-            arrivals = 0;                                               //reset arrivals
+             //store the number of arrivals
+            part->partition_sizes.push_back(arrivals);
+            //reset arrivals
+            arrivals = 0;
            
             index++;
-            double next_interval = pow(x,index)/(1-pow(x,index));       //calculate the next interval
+             //calculate the next interval
+            double next_interval = pow(x,index)/(1-pow(x,index));
             current_target+=next_interval;
             
-            while (current_target < time)                               //run till we are in an interval:
+            //run till we are in an interval:
+            while (current_target < time)
             {
                 part->partition_sizes.push_back(0);
                 index++;
-                double next_interval = pow(x,index)/(1-pow(x,index));   //calculate the next interval
+                //calculate the next interval
+                double next_interval = pow(x,index)/(1-pow(x,index));
                 current_target+=next_interval;
                 detectTrapped(trapped);
             }
         }
         //poissonPositions.push_back(time);
         if (flag == true)
-            arrivals++;                                                 //increment arrivals each time we're in the interval: //DEBUG: if statement, don't add past end
+            //increment arrivals each time we're in the interval: //DEBUG: if statement, don't add past end
+            arrivals++;
     }
     
-    if (arrivals>0)                                                     //if we still had arrivals queued before we ended, store them.
+    //if we still had arrivals queued before we ended, store them.
+    if (arrivals>0)
         part->partition_sizes.push_back(arrivals);
-    
-    
-    
-    //std::cout << "Printing Poisson values, s is " << s<< " and N(t) is " << arrivals <<  std::endl;
-    /*for (int i=1; i<poissonPositions.size(); i++)
-        std::cout << poissonPositions[i] << std::endl;*/
     
     part->printPartition();
     

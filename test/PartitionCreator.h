@@ -14,26 +14,12 @@
 #include <vector>
 
 
-class integer_partition {
-public:
-    //std::vector<int>* getFerrersIndexes();
-    std::vector<int>partition_sizes;
-    void printPartition();
-};
-
-
-
-
-
-//To be edited later as updates needed
 class RandomPartition {
 public:
-    //std::vector<int>* getFerrersIndexes();
     std::vector<int>partition_sizes;
     void printPartition();
     int sumPartition();
 };
-
 
 
 class PartitionCreator {
@@ -44,7 +30,6 @@ public:
     
     RandomPartition* generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms = div_conquer_deterministic);
     void setRestriction(enum PartitionCreator::activeRestrictions);
-    
     RandomPartition* generateOddDistinct(int goal_size);
     
     //debug
