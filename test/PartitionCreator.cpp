@@ -110,10 +110,6 @@ RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
             k -= i*test_partition->partition_sizes[i];
         }
         
-        //DEBUG
-        test_partition->sumPartition();
-        //END DEBUG
-        
         if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))) {
             //test_partition->partition_sizes.insert(test_partition->partition_sizes.begin()+1, k);
             test_partition->partition_sizes[1] = k;
@@ -127,77 +123,6 @@ RandomPartition* PartitionCreator::selfSimilarDivConquer(int goal_size)
     //In progress
     return nullptr;
 }
-
-
-RandomPartition* PartitionCreator::selfSimilarDivConquerDEFUNCT(int goal_size) {
-    //Returns nullptr if called, only still here for prior code until new version implemented
-    return nullptr;
-    
-    
-    /*
-    const double c = 3.14159/sqrt(6);
-    const double x = 1 - (c / (sqrt(goal_size)));
-    int k;
-    
-    time_t seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator ((unsigned int)seed);
-    
-    std::uniform_real_distribution<double> uni_distribution(0.0,1.0);
-    U = uni_distribution(generator);
-    
-    RandomPartition* test_partition = nullptr;
-    if(goal_size == 1){
-        test_partition->partition_sizes.push_back(1);
-        return test_partition;
-    }
-    else{
-        test_partition->partition_sizes.resize(goal_size+1);
-        test_partition->partition_sizes[0] = 0;
-        if(goal_size/2 == 0){
-            for(int i = 1; i <= goal_size/2; i++){
-                std::geometric_distribution<unsigned int> geo_distribution (1-pow(x,1+2*(i-1)));
-                test_partition->partition_sizes[2*i-1] = geo_distribution(generator);
-                test_partition->partition_sizes[2*i] = 0;
-            }
-            k = goal_size;
-            for (int i = 1; i <= goal_size/2; i++){
-                k -= (2*i-1)*test_partition->partition_sizes[2*i-1];
-            }
-        }
-        else if(goal_size/2 == 1){
-            for(int i = 1; i <= goal_size/2; i++){
-                std::geometric_distribution<unsigned int> geo_distribution (1-pow(x,1+2*(i-1)));
-                test_partition->partition_sizes[2*i-1] = geo_distribution(generator);
-                test_partition->partition_sizes[2*i] = 0;
-            }
-            std::geometric_distribution<unsigned int> geo_distribution (1-pow(x,goal_size));
-            test_partition->partition_sizes[goal_size] = geo_distribution(generator);
-            k = goal_size;
-            for(int i = 1; i <= goal_size/2+1; i++){
-                k -= (2*i-1)*test_partition->partition_sizes[2*i-1];
-            }
-
-        }
-        
-        if(k<0 || k/2 == 1)
-            return nullptr;
-        
-        else if(*******){
-            RandomPartition* a = SS_PDC_IP(k/2);
-            for (int i = 1; i <= goal_size/2; i++){
-                test_partition->partition_sizes[2*i] = a->partition_sizes[2*i-1];
-                return test_partition;
-            }
-        }
-        else return nullptr;
-
-    }
-    
-}
-*/
-    
-}
-
 
 //DEBUG
 
@@ -460,13 +385,6 @@ int poissonGenerationAttemptTwo(int size)
 
 
 
-
-
-
-
-
-
-
 void PartitionCreator::poissonGeneration(int size)
 {
     double c = 3.14159/sqrt(6);
@@ -663,15 +581,6 @@ RandomPartition* PartitionCreator::createPartitionGroupsWithBernoulli(int size) 
         
         //std::geometric_distribution<unsigned int> geo_distribution (1-y);
         
-        
-        //bernoulli generation
-        //x = e c thing
-        //x over 1 plus x
-        //each time the loop goes through update:
-        //xx= x;
-        //part[i] = U < xx/1+xx ? 1 : 0;
-        //xx*=x*x;
-        
         a->partition_sizes[i] = (uni_distribution(generator) < xx/ (1+xx)) ? 1 : 0;
         xx *= x*x;
     }
@@ -739,9 +648,6 @@ void appendToFile(std::string filename, RandomPartition* partition)
     filebuf.open((filename + ".txt"), std::ios::app);
     if (filebuf.is_open())
     {
-        std::cout << "It's open!!!" ;
-    
-    
         for (int i = 1; i<partition->partition_sizes.size(); i++)
         {
             filebuf << partition->partition_sizes[i] << ",";
@@ -753,7 +659,7 @@ void appendToFile(std::string filename, RandomPartition* partition)
 
 
 
-int main() {
+//int main() {
     /*
     int size = 17;
     RandomPartition* test;
@@ -785,7 +691,7 @@ int main() {
     
     std::cout << std::endl;
      */
-    
+    /*
     //DEBUG
     using namespace std;
     
@@ -802,7 +708,7 @@ int main() {
         part = creator.generateRandomPartition(10000);
         appendToFile("random_partition_size_10000", part);
         delete part;
-    }
+    }*/
     
     
     /*
@@ -863,5 +769,5 @@ int main() {
         PC->poissonGeneration(100);
     }
      */
-}
+//}
 

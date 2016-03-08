@@ -45,7 +45,6 @@ public:
     RandomPartition* generateRandomPartition(int size, enum PartitionCreator::sampleAlgorithms = div_conquer_deterministic);
     void setRestriction(enum PartitionCreator::activeRestrictions);
     
-    
     RandomPartition* generateOddDistinct(int goal_size);
     
     //debug
