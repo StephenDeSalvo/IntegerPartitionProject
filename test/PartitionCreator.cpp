@@ -110,6 +110,10 @@ RandomPartition* PartitionCreator::divConquerDeterministic(int goal_size){
             k -= i*test_partition->partition_sizes[i];
         }
         
+        //DEBUG
+        test_partition->sumPartition();
+        //END DEBUG
+        
         if(k >= 0 && U < exp(-k*3.14159/sqrt(6*goal_size))) {
             //test_partition->partition_sizes.insert(test_partition->partition_sizes.begin()+1, k);
             test_partition->partition_sizes[1] = k;
