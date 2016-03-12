@@ -1,3 +1,9 @@
+March 11th, 2016<br />
+Added Ryan's implementation of the AG bijection.
+A few functions have been added for handling large amounts of data.
+An implementation of Sylvester's bijection in the other direction has been added.
+Code has been cleaned.
+
 February 21st, 2016<br />
 Added Ryan's implementation of Sylvester's bijection, and the function will now output the point data after each transformation.
 Due to their enormous size, example point data files have not been uploaded.

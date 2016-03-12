@@ -10,9 +10,7 @@
 #include <vector>
 #include <cassert>
 #include <fstream>
-#include <chrono>
-#include <ctime>
-#include <sstream>
+#include <iostream>
 
 namespace IPC
 {
@@ -34,32 +32,14 @@ namespace IPC
     class ForwardGraph
     {
     public:
-        void ouputToFile(bool includeTime = false)
+        void ouputToFile(const std::string& directory)
         {
-            std::string filename = "graph";
-
-            if (includeTime)
-            {
-                std::stringstream ss;
-                std::time_t time =
-                        std::chrono::system_clock::to_time_t(
-                            std::chrono::system_clock::now());
-                ss << std::ctime(&time);
-                std::string str = ss.str();
-                str.pop_back();
-
-                filename += " " + str;
-            }
-
-            filename += ".txt";
+            std::string filename = directory + "/graph.txt";
 
             std::ofstream outfile;
             outfile.open(filename);
             if (outfile.fail())
-            {
-                #include <iostream>
                 std::cerr << "FAILED TO OPEN FILE " << filename << std::endl;
-            }
             outfile << *this;
             outfile.close();
         }
