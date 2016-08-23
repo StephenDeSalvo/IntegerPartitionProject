@@ -1,0 +1,73 @@
+\hypertarget{struct_i_p_c_1_1_unique_point}{}\section{I\+PC\+:\+:Unique\+Point$<$ Z $>$ Struct Template Reference}
+\label{struct_i_p_c_1_1_unique_point}\index{I\+P\+C\+::\+Unique\+Point$<$ Z $>$@{I\+P\+C\+::\+Unique\+Point$<$ Z $>$}}
+
+
+A point in the integer plane with an ID.  
+
+
+
+
+{\ttfamily \#include $<$Unique\+Point.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_i_p_c_1_1_unique_point_a16f97e3bd4f448277c466e969bf706ea}{Unique\+Point} (Z x=N\+U\+LL, Z y=N\+U\+LL, std\+::uint64\+\_\+t id=0)
+\begin{DoxyCompactList}\small\item\em Constructs a \hyperlink{struct_i_p_c_1_1_unique_point}{Unique\+Point} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Z {\bfseries x}\hypertarget{struct_i_p_c_1_1_unique_point_ab11f6083ec4d20f05df89ae94838b451}{}\label{struct_i_p_c_1_1_unique_point_ab11f6083ec4d20f05df89ae94838b451}
+
+\item 
+Z {\bfseries y}\hypertarget{struct_i_p_c_1_1_unique_point_a4aeae4a98f38acce434542d241b49ef8}{}\label{struct_i_p_c_1_1_unique_point_a4aeae4a98f38acce434542d241b49ef8}
+
+\item 
+std\+::uint64\+\_\+t {\bfseries id}\hypertarget{struct_i_p_c_1_1_unique_point_a656474d94bdf182fe4ebdefd697c9c7b}{}\label{struct_i_p_c_1_1_unique_point_a656474d94bdf182fe4ebdefd697c9c7b}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename Z$>$\\*
+struct I\+P\+C\+::\+Unique\+Point$<$ Z $>$}
+
+A point in the integer plane with an ID. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type used to assign the x and y coordinate values\\
+\hline
+\end{DoxyTemplParams}
+I\+Ds are not shared between points, hence they are \char`\"{}unique\char`\"{}.
+
+The compiler will check that Z is of integral type. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{I\+P\+C\+::\+Unique\+Point@{I\+P\+C\+::\+Unique\+Point}!Unique\+Point@{Unique\+Point}}
+\index{Unique\+Point@{Unique\+Point}!I\+P\+C\+::\+Unique\+Point@{I\+P\+C\+::\+Unique\+Point}}
+\subsubsection[{\texorpdfstring{Unique\+Point(\+Z x=\+N\+U\+L\+L, Z y=\+N\+U\+L\+L, std\+::uint64\+\_\+t id=0)}{UniquePoint(Z x=NULL, Z y=NULL, std::uint64_t id=0)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z$>$ {\bf I\+P\+C\+::\+Unique\+Point}$<$ Z $>$\+::{\bf Unique\+Point} (
+\begin{DoxyParamCaption}
+\item[{Z}]{x = {\ttfamily NULL}, }
+\item[{Z}]{y = {\ttfamily NULL}, }
+\item[{std\+::uint64\+\_\+t}]{id = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{struct_i_p_c_1_1_unique_point_a16f97e3bd4f448277c466e969bf706ea}{}\label{struct_i_p_c_1_1_unique_point_a16f97e3bd4f448277c466e969bf706ea}
+
+
+Constructs a \hyperlink{struct_i_p_c_1_1_unique_point}{Unique\+Point} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & is the x-\/value of the point in the plane \\
+\hline
+{\em y} & is the y-\/value of the point in the plane \\
+\hline
+{\em id} & is the identifying value of the point in the plane\\
+\hline
+\end{DoxyParams}
+This function asserts that the point\textquotesingle{}s coordinate values are signed. It is up to the client to ensure that every point has a unique id. Once an id is assigned, it should not be altered. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_unique_point_8hpp}{Unique\+Point.\+hpp}\end{DoxyCompactItemize}

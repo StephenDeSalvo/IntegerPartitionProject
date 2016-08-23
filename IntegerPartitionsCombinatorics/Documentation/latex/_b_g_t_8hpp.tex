@@ -1,0 +1,277 @@
+\hypertarget{_b_g_t_8hpp}{}\section{B\+G\+T.\+hpp File Reference}
+\label{_b_g_t_8hpp}\index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+
+
+Implements the basic geometric transformations of \mbox{[}2\mbox{]}.  
+
+
+{\ttfamily \#include $<$utility$>$}\\*
+{\ttfamily \#include $<$cassert$>$}\\*
+{\ttfamily \#include \char`\"{}Utility.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Unique\+Point.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}U\+P\+Vector.\+hpp\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_g_t_8hpp_a2df82425c79cf05a0eb1c747e6b6dd7b}{I\+P\+C\+::\+B\+G\+T\+::shift} (U\+P\+Vector$<$ Z $>$ upv, const Matrix2x2$<$ Z $>$ \&shear)
+\begin{DoxyCompactList}\small\item\em Apply the shift transformation of \mbox{[}2\mbox{]} to a set of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_g_t_8hpp_a3fba9cb804f61eca800717542e241946}{I\+P\+C\+::\+B\+G\+T\+::move} (U\+P\+Vector$<$ Z $>$ upv, const Z \&a, const Z \&b)
+\begin{DoxyCompactList}\small\item\em Apply the move transformation of \mbox{[}2\mbox{]} to a set of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$ $>$ \hyperlink{_b_g_t_8hpp_a47a1d6c1dd799402c7b318ada1503fe6}{I\+P\+C\+::\+B\+G\+T\+::cut} (U\+P\+Vector$<$ Z $>$ upv, const Z \&a, const Z \&b, const Z \&c)
+\begin{DoxyCompactList}\small\item\em Apply the cut transformation of \mbox{[}2\mbox{]} to a set of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_g_t_8hpp_a44824b9bf2b118f463884c611af0da78}{I\+P\+C\+::\+B\+G\+T\+::paste} (U\+P\+Vector$<$ Z $>$ upv\+First, const U\+P\+Vector$<$ Z $>$ upv\+Second, bool validate=false)
+\begin{DoxyCompactList}\small\item\em Apply the paste transformation of \mbox{[}2\mbox{]} to two sets of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_g_t_8hpp_ab0de1281000dd15db3df4772c4ef40e1}{I\+P\+C\+::\+B\+G\+T\+::paste} (const std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$$>$ \&upv\+Pair, bool validate=false)
+\begin{DoxyCompactList}\small\item\em Apply the paste transformation of \mbox{[}2\mbox{]} to two sets of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$ $>$ \hyperlink{_b_g_t_8hpp_a0026fdb7234ec6682f81bc0a56289287}{I\+P\+C\+::\+B\+G\+T\+::shred} (U\+P\+Vector$<$ Z $>$ upv)
+\begin{DoxyCompactList}\small\item\em Apply the shred transformation of \mbox{[}2\mbox{]} to a set of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_g_t_8hpp_ae5065906ef7f5441b36774233da97169}{I\+P\+C\+::\+B\+G\+T\+::stretch} (U\+P\+Vector$<$ Z $>$ upv, const Z \&k, const Z \&l)
+\begin{DoxyCompactList}\small\item\em Apply the stretch transformation of \mbox{[}2\mbox{]} to a set of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_g_t_8hpp_ac5b96e8a6ef9854bdf51fb4ab97ef46b}{I\+P\+C\+::\+B\+G\+T\+::conjugate} (U\+P\+Vector$<$ Z $>$ upv)
+\begin{DoxyCompactList}\small\item\em Apply the conjugate transformation of \mbox{[}2\mbox{]} to a set of integer points. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements the basic geometric transformations of \mbox{[}2\mbox{]}. 
+
+
+
+\subsection{Function Documentation}
+\index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!conjugate@{conjugate}}
+\index{conjugate@{conjugate}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{conjugate(\+U\+P\+Vector$<$ Z $>$ upv)}{conjugate(UPVector< Z > upv)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+G\+T\+::conjugate (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_ac5b96e8a6ef9854bdf51fb4ab97ef46b}{}\label{_b_g_t_8hpp_file_ac5b96e8a6ef9854bdf51fb4ab97ef46b}
+
+
+Apply the conjugate transformation of \mbox{[}2\mbox{]} to a set of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the U\+P\+Vector whose points are to be reflected \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the U\+P\+Vector post-\/reflection
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic. \index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!cut@{cut}}
+\index{cut@{cut}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{cut(\+U\+P\+Vector$<$ Z $>$ upv, const Z \&a, const Z \&b, const Z \&c)}{cut(UPVector< Z > upv, const Z &a, const Z &b, const Z &c)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ std\+::pair$<$U\+P\+Vector$<$Z$>$,U\+P\+Vector$<$Z$>$ $>$ I\+P\+C\+::\+B\+G\+T\+::cut (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv, }
+\item[{const Z \&}]{a, }
+\item[{const Z \&}]{b, }
+\item[{const Z \&}]{c}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_a47a1d6c1dd799402c7b318ada1503fe6}{}\label{_b_g_t_8hpp_file_a47a1d6c1dd799402c7b318ada1503fe6}
+
+
+Apply the cut transformation of \mbox{[}2\mbox{]} to a set of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the U\+P\+Vector whose points are to be cut \\
+\hline
+{\em a} & is a value used to define the line along which the points are to be divided \\
+\hline
+{\em b} & is a value used to define the line along which the points are to be divided \\
+\hline
+{\em c} & is a value used to define the line along which the points are to be divided \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the U\+P\+Vector post-\/cut as a pair of U\+P\+Vectors
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic.
+
+Suppose we are viewing a Ferrers diagram with the line y = c/a -\/ b/ax drawn over it. Generally, then the first element of the returned object containes all those points in the diagram visually below or on the line, and the second element contains all those points in the diagram which are strictly above it, visually.
+
+To have a return object whose first element contains all those points in the diagram visually above or on the line, figure out the equation of the line and multiply a, b, and c by -\/1 for the input. \index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!move@{move}}
+\index{move@{move}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{move(\+U\+P\+Vector$<$ Z $>$ upv, const Z \&a, const Z \&b)}{move(UPVector< Z > upv, const Z &a, const Z &b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+G\+T\+::move (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv, }
+\item[{const Z \&}]{a, }
+\item[{const Z \&}]{b}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_a3fba9cb804f61eca800717542e241946}{}\label{_b_g_t_8hpp_file_a3fba9cb804f61eca800717542e241946}
+
+
+Apply the move transformation of \mbox{[}2\mbox{]} to a set of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the U\+P\+Vector whose points are to be moved \\
+\hline
+{\em a} & is the amount by which to translate the x-\/value of the input points \\
+\hline
+{\em b} & is the amount by which to translate the y-\/value of the input points \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the U\+P\+Vector post-\/move
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic. \index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!paste@{paste}}
+\index{paste@{paste}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{paste(\+U\+P\+Vector$<$ Z $>$ upv\+First, const U\+P\+Vector$<$ Z $>$ upv\+Second, bool validate=false)}{paste(UPVector< Z > upvFirst, const UPVector< Z > upvSecond, bool validate=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+G\+T\+::paste (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv\+First, }
+\item[{const U\+P\+Vector$<$ Z $>$}]{upv\+Second, }
+\item[{bool}]{validate = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_a44824b9bf2b118f463884c611af0da78}{}\label{_b_g_t_8hpp_file_a44824b9bf2b118f463884c611af0da78}
+
+
+Apply the paste transformation of \mbox{[}2\mbox{]} to two sets of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv\+First} & is the first set of integer points \\
+\hline
+{\em upv\+Second} & is the second set of integer points \\
+\hline
+{\em validate} & is used to determine if two points occupy the same position \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the two input sets of integer points, post-\/paste
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic.
+
+By setting validate to true, the function asserts that there is no point in upv\+First that occupies the same position as a point in upv\+Second. \index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!paste@{paste}}
+\index{paste@{paste}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{paste(const std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$$>$ \&upv\+Pair, bool validate=false)}{paste(const std::pair< UPVector< Z >, UPVector< Z >> &upvPair, bool validate=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+G\+T\+::paste (
+\begin{DoxyParamCaption}
+\item[{const std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$$>$ \&}]{upv\+Pair, }
+\item[{bool}]{validate = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_ab0de1281000dd15db3df4772c4ef40e1}{}\label{_b_g_t_8hpp_file_ab0de1281000dd15db3df4772c4ef40e1}
+
+
+Apply the paste transformation of \mbox{[}2\mbox{]} to two sets of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv\+Pair} & is the pair of integer point sets \\
+\hline
+{\em validate} & determines if the first and second pair elements contain points at the same location \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the two input sets of integer points, post-\/paste
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic.
+
+By setting validate to true, the function asserts that there is no point in upv\+First that occupies the same position as a point in upv\+Second. \index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!shift@{shift}}
+\index{shift@{shift}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{shift(\+U\+P\+Vector$<$ Z $>$ upv, const Matrix2x2$<$ Z $>$ \&shear)}{shift(UPVector< Z > upv, const Matrix2x2< Z > &shear)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+G\+T\+::shift (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv, }
+\item[{const {\bf Matrix2x2}$<$ Z $>$ \&}]{shear}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_a2df82425c79cf05a0eb1c747e6b6dd7b}{}\label{_b_g_t_8hpp_file_a2df82425c79cf05a0eb1c747e6b6dd7b}
+
+
+Apply the shift transformation of \mbox{[}2\mbox{]} to a set of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the U\+P\+Vector whose points are to be shifted \\
+\hline
+{\em shear} & is the \hyperlink{struct_i_p_c_1_1_matrix2x2}{Matrix2x2} determining the shift \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the U\+P\+Vector post-\/shift
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic.
+
+Before proceeding, the function asserts that the input matrix is a shear matrix. \index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!shred@{shred}}
+\index{shred@{shred}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{shred(\+U\+P\+Vector$<$ Z $>$ upv)}{shred(UPVector< Z > upv)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ std\+::pair$<$U\+P\+Vector$<$Z$>$,U\+P\+Vector$<$Z$>$ $>$ I\+P\+C\+::\+B\+G\+T\+::shred (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_a0026fdb7234ec6682f81bc0a56289287}{}\label{_b_g_t_8hpp_file_a0026fdb7234ec6682f81bc0a56289287}
+
+
+Apply the shred transformation of \mbox{[}2\mbox{]} to a set of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the U\+P\+Vector whose points are to be shredded \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the U\+P\+Vector post-\/shred as a pair of U\+P\+Vectors
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic.
+
+The first element of the returned object contains all those points whose x-\/coordinate is even, and the second contains all those whose x-\/coordinate is odd. \index{B\+G\+T.\+hpp@{B\+G\+T.\+hpp}!stretch@{stretch}}
+\index{stretch@{stretch}!B\+G\+T.\+hpp@{B\+G\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{stretch(\+U\+P\+Vector$<$ Z $>$ upv, const Z \&k, const Z \&l)}{stretch(UPVector< Z > upv, const Z &k, const Z &l)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+G\+T\+::stretch (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv, }
+\item[{const Z \&}]{k, }
+\item[{const Z \&}]{l}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_g_t_8hpp_file_ae5065906ef7f5441b36774233da97169}{}\label{_b_g_t_8hpp_file_ae5065906ef7f5441b36774233da97169}
+
+
+Apply the stretch transformation of \mbox{[}2\mbox{]} to a set of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the U\+P\+Vector whose points are to be stretched \\
+\hline
+{\em k} & is the factor by which to stretch the points along the y-\/axis \\
+\hline
+{\em l} & is the factor by which to compress the points along the x-\/axis \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the U\+P\+Vector post-\/stretch
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformation that this function aims to mimic. 

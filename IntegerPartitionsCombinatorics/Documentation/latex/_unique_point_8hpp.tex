@@ -1,0 +1,75 @@
+\hypertarget{_unique_point_8hpp}{}\section{Unique\+Point.\+hpp File Reference}
+\label{_unique_point_8hpp}\index{Unique\+Point.\+hpp@{Unique\+Point.\+hpp}}
+
+
+Defines and implements the Unique\+Point class.  
+
+
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$cstdint$>$}\\*
+{\ttfamily \#include $<$limits$>$}\\*
+{\ttfamily \#include \char`\"{}Utility.\+hpp\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_i_p_c_1_1_unique_point}{I\+P\+C\+::\+Unique\+Point$<$ Z $>$}
+\begin{DoxyCompactList}\small\item\em A point in the integer plane with an ID. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Z $>$ }\\\hyperlink{struct_i_p_c_1_1_unique_point}{I\+P\+C\+::\+Unique\+Point}$<$ Z $>$ \hyperlink{_unique_point_8hpp_aa8ff0e1ee2b19f28ccd92505ae148026}{operator$\ast$} (const \hyperlink{struct_i_p_c_1_1_matrix2x2}{I\+P\+C\+::\+Matrix2x2}$<$ Z $>$ \&mat, const \hyperlink{struct_i_p_c_1_1_unique_point}{I\+P\+C\+::\+Unique\+Point}$<$ Z $>$ \&up)
+\begin{DoxyCompactList}\small\item\em Compound assigns for L\+HS Matrix2x2 multiplication. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\std\+::ostream \& \hyperlink{_unique_point_8hpp_a1723a8cb8719c73ee71a7802a66e32f1}{operator$<$$<$} (std\+::ostream \&os, const \hyperlink{struct_i_p_c_1_1_unique_point}{I\+P\+C\+::\+Unique\+Point}$<$ Z $>$ \&up)
+\begin{DoxyCompactList}\small\item\em Outputs a Unique\+Point as \char`\"{}x,y,id\char`\"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines and implements the Unique\+Point class. 
+
+
+
+\subsection{Function Documentation}
+\index{Unique\+Point.\+hpp@{Unique\+Point.\+hpp}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Unique\+Point.\+hpp@{Unique\+Point.\+hpp}}
+\subsubsection[{\texorpdfstring{operator$\ast$(const I\+P\+C\+::\+Matrix2x2$<$ Z $>$ \&mat, const I\+P\+C\+::\+Unique\+Point$<$ Z $>$ \&up)}{operator*(const IPC::Matrix2x2< Z > &mat, const IPC::UniquePoint< Z > &up)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ {\bf I\+P\+C\+::\+Unique\+Point}$<$Z$>$ operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf I\+P\+C\+::\+Matrix2x2}$<$ Z $>$ \&}]{mat, }
+\item[{const {\bf I\+P\+C\+::\+Unique\+Point}$<$ Z $>$ \&}]{up}
+\end{DoxyParamCaption}
+)}\hypertarget{_unique_point_8hpp_aa8ff0e1ee2b19f28ccd92505ae148026}{}\label{_unique_point_8hpp_aa8ff0e1ee2b19f28ccd92505ae148026}
+
+
+Compound assigns for L\+HS Matrix2x2 multiplication. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & is the L\+HS matrix \\
+\hline
+{\em up} & is the R\+HS unique point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the matrix multiplied by the vector 
+\end{DoxyReturn}
+\index{Unique\+Point.\+hpp@{Unique\+Point.\+hpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Unique\+Point.\+hpp@{Unique\+Point.\+hpp}}
+\subsubsection[{\texorpdfstring{operator$<$$<$(std\+::ostream \&os, const I\+P\+C\+::\+Unique\+Point$<$ Z $>$ \&up)}{operator<<(std::ostream &os, const IPC::UniquePoint< Z > &up)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ std\+::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{os, }
+\item[{const {\bf I\+P\+C\+::\+Unique\+Point}$<$ Z $>$ \&}]{up}
+\end{DoxyParamCaption}
+)}\hypertarget{_unique_point_8hpp_a1723a8cb8719c73ee71a7802a66e32f1}{}\label{_unique_point_8hpp_a1723a8cb8719c73ee71a7802a66e32f1}
+
+
+Outputs a Unique\+Point as \char`\"{}x,y,id\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em os} & is the stream to which the Unique\+Point is output \\
+\hline
+{\em up} & is the Unique\+Point to be output \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the input stream with the Unique\+Point output to it 
+\end{DoxyReturn}

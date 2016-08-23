@@ -1,0 +1,59 @@
+\hypertarget{_u_p_vector_8hpp}{}\section{U\+P\+Vector.\+hpp File Reference}
+\label{_u_p_vector_8hpp}\index{U\+P\+Vector.\+hpp@{U\+P\+Vector.\+hpp}}
+
+
+Defines the U\+P\+Vector type and methods for filling it.  
+
+
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include \char`\"{}Unique\+Point.\+hpp\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Z $>$ }\\using {\bfseries I\+P\+C\+::\+U\+P\+Vector} = std\+::vector$<$ Unique\+Point$<$ Z $>$$>$\hypertarget{_u_p_vector_8hpp_a5ce2c5c1ebf4372110ff50a06fb9a13c}{}\label{_u_p_vector_8hpp_a5ce2c5c1ebf4372110ff50a06fb9a13c}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Z $>$ }\\void {\bfseries I\+P\+C\+::output\+To\+File} (const U\+P\+Vector$<$ Z $>$ \&upv, const std\+::string \&filename)\hypertarget{_u_p_vector_8hpp_a701c5458093f63a692327b4fbcb66437}{}\label{_u_p_vector_8hpp_a701c5458093f63a692327b4fbcb66437}
+
+\item 
+{\footnotesize template$<$typename Z $>$ }\\std\+::vector$<$ U\+P\+Vector$<$ Z $>$ $>$ {\bfseries I\+P\+C\+::read\+In\+Multiplicities} (const std\+::string \&filename, const Z line\+Length, const Z line\+Count)\hypertarget{_u_p_vector_8hpp_ad752da8078f2ecce59dbe3d63956a818}{}\label{_u_p_vector_8hpp_ad752da8078f2ecce59dbe3d63956a818}
+
+\item 
+{\footnotesize template$<$typename Z $>$ }\\std\+::ostream \& \hyperlink{_u_p_vector_8hpp_a210d07eb55987191bde6a35d26513166}{operator$<$$<$} (std\+::ostream \&os, const I\+P\+C\+::\+U\+P\+Vector$<$ Z $>$ \&upv)
+\begin{DoxyCompactList}\small\item\em Outputs a U\+P\+Vector by outputting each of its elements. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines the U\+P\+Vector type and methods for filling it. 
+
+
+
+\subsection{Function Documentation}
+\index{U\+P\+Vector.\+hpp@{U\+P\+Vector.\+hpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!U\+P\+Vector.\+hpp@{U\+P\+Vector.\+hpp}}
+\subsubsection[{\texorpdfstring{operator$<$$<$(std\+::ostream \&os, const I\+P\+C\+::\+U\+P\+Vector$<$ Z $>$ \&upv)}{operator<<(std::ostream &os, const IPC::UPVector< Z > &upv)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ std\+::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{os, }
+\item[{const I\+P\+C\+::\+U\+P\+Vector$<$ Z $>$ \&}]{upv}
+\end{DoxyParamCaption}
+)}\hypertarget{_u_p_vector_8hpp_a210d07eb55987191bde6a35d26513166}{}\label{_u_p_vector_8hpp_a210d07eb55987191bde6a35d26513166}
+
+
+Outputs a U\+P\+Vector by outputting each of its elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em os} & is the stream to which the U\+P\+Vector is output \\
+\hline
+{\em upv} & is the U\+P\+Vector to be output \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the input stream with the U\+P\+Vector output to it 
+\end{DoxyReturn}

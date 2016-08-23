@@ -1,0 +1,60 @@
+\hypertarget{class_i_p_c_1_1_forward_graph}{}\section{I\+PC\+:\+:Forward\+Graph$<$ K, V $>$ Class Template Reference}
+\label{class_i_p_c_1_1_forward_graph}\index{I\+P\+C\+::\+Forward\+Graph$<$ K, V $>$@{I\+P\+C\+::\+Forward\+Graph$<$ K, V $>$}}
+
+
+Implementation of a forward graph.  
+
+
+
+
+{\ttfamily \#include $<$Forward\+Graph.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries output\+To\+File} (const std\+::string \&directory)\hypertarget{class_i_p_c_1_1_forward_graph_ad377d409fd61025afb9ea0df55c437e3}{}\label{class_i_p_c_1_1_forward_graph_ad377d409fd61025afb9ea0df55c437e3}
+
+\item 
+void {\bfseries add\+Vertex} (const K \&v\+\_\+key, const V \&v\+\_\+data)\hypertarget{class_i_p_c_1_1_forward_graph_a4fdef56cce1751575bf563dc22e48c11}{}\label{class_i_p_c_1_1_forward_graph_a4fdef56cce1751575bf563dc22e48c11}
+
+\item 
+void {\bfseries add\+Edge} (const K \&v\+\_\+key1, const K \&v\+\_\+key2)\hypertarget{class_i_p_c_1_1_forward_graph_a024fa0652056350aa293e810bcd339e1}{}\label{class_i_p_c_1_1_forward_graph_a024fa0652056350aa293e810bcd339e1}
+
+\item 
+const V {\bfseries get\+Vertex\+Data} (const K \&v\+\_\+key) const \hypertarget{class_i_p_c_1_1_forward_graph_ad882a4d7bb06dea57c3afe8879b39fd3}{}\label{class_i_p_c_1_1_forward_graph_ad882a4d7bb06dea57c3afe8879b39fd3}
+
+\item 
+std\+::unordered\+\_\+map$<$ K, V, std\+::hash$<$ K $>$ $>$\+::const\+\_\+iterator {\bfseries begin\+Vertices} () const \hypertarget{class_i_p_c_1_1_forward_graph_a352e7c6ab39de3d26c708af7d31d0184}{}\label{class_i_p_c_1_1_forward_graph_a352e7c6ab39de3d26c708af7d31d0184}
+
+\item 
+std\+::unordered\+\_\+map$<$ K, V, std\+::hash$<$ K $>$ $>$\+::const\+\_\+iterator {\bfseries end\+Vertices} () const \hypertarget{class_i_p_c_1_1_forward_graph_a2bec703bb20906f1e5cd915961f42db5}{}\label{class_i_p_c_1_1_forward_graph_a2bec703bb20906f1e5cd915961f42db5}
+
+\item 
+std\+::vector$<$ std\+::pair$<$ K, K $>$ $>$\+::const\+\_\+iterator {\bfseries begin\+Edges} () const \hypertarget{class_i_p_c_1_1_forward_graph_a4c08748a319410c00ed17af828cda210}{}\label{class_i_p_c_1_1_forward_graph_a4c08748a319410c00ed17af828cda210}
+
+\item 
+std\+::vector$<$ std\+::pair$<$ K, K $>$ $>$\+::const\+\_\+iterator {\bfseries end\+Edges} () const \hypertarget{class_i_p_c_1_1_forward_graph_a980a27ec3ec3dc4a6fb0d8c668996624}{}\label{class_i_p_c_1_1_forward_graph_a980a27ec3ec3dc4a6fb0d8c668996624}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename K, typename V$>$\\*
+class I\+P\+C\+::\+Forward\+Graph$<$ K, V $>$}
+
+Implementation of a forward graph. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & is the key value to look-\/up each vertex\textquotesingle{}s data \\
+\hline
+{\em H} & is the hash value generated for K \\
+\hline
+{\em V} & is the type of data stored in each vertex\\
+\hline
+\end{DoxyTemplParams}
+This is a bare-\/bones graph implementation, named \char`\"{}forward\char`\"{} because vertices and edges can only be added, not removed. Moreover, the graph is non-\/traversable in the classic sense\+: One can only iterate over its edges and vertices. This class does ensure that no vertices with the same key value exist, and it also ensures that there are no duplicate edges. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_forward_graph_8hpp}{Forward\+Graph.\+hpp}\end{DoxyCompactItemize}

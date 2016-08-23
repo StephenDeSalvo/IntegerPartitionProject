@@ -1,0 +1,120 @@
+\hypertarget{_bijections_8hpp}{}\section{Bijections.\+hpp File Reference}
+\label{_bijections_8hpp}\index{Bijections.\+hpp@{Bijections.\+hpp}}
+
+
+Implements the bijections discussed in \mbox{[}2\mbox{]}.  
+
+
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include \char`\"{}U\+P\+Vector.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}B\+G\+T.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}B\+A\+T.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Forward\+Graph.\+hpp\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_bijections_8hpp_af20d4205c5457bd030d232617fcf8ca0}{I\+P\+C\+::scdo} (U\+P\+Vector$<$ Z $>$ upv, const std\+::string \&directory=\char`\"{}\char`\"{}, const bool verbose=false)
+\begin{DoxyCompactList}\small\item\em Applies the \char`\"{}self-\/conjugate to distinct, odd\char`\"{} bijection of \mbox{[}2\mbox{]}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_bijections_8hpp_a93fd26ef4f22e9873bf4927503301ad4}{I\+P\+C\+::scdo\+Backwards} (U\+P\+Vector$<$ Z $>$ upv, const std\+::string \&directory=\char`\"{}\char`\"{}, const bool verbose=false)
+\begin{DoxyCompactList}\small\item\em Applies the \char`\"{}self-\/conjugate to distinct, odd\char`\"{} bijection of \mbox{[}2\mbox{]}, backwards. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_bijections_8hpp_a697fc7f908f0e60ddf1691d6e43bc751}{I\+P\+C\+::sylvester} (U\+P\+Vector$<$ Z $>$ upv, const std\+::string \&directory=\char`\"{}\char`\"{}, const bool verbose=false)
+\begin{DoxyCompactList}\small\item\em Apply Sylvester\textquotesingle{}s bijection as defined in \mbox{[}2\mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements the bijections discussed in \mbox{[}2\mbox{]}. 
+
+
+
+\subsection{Function Documentation}
+\index{Bijections.\+hpp@{Bijections.\+hpp}!scdo@{scdo}}
+\index{scdo@{scdo}!Bijections.\+hpp@{Bijections.\+hpp}}
+\subsubsection[{\texorpdfstring{scdo(\+U\+P\+Vector$<$ Z $>$ upv, const std\+::string \&directory="""", const bool verbose=false)}{scdo(UPVector< Z > upv, const std::string &directory="", const bool verbose=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::scdo (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv, }
+\item[{const std\+::string \&}]{directory = {\ttfamily \char`\"{}\char`\"{}}, }
+\item[{const bool}]{verbose = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_bijections_8hpp_file_af20d4205c5457bd030d232617fcf8ca0}{}\label{_bijections_8hpp_file_af20d4205c5457bd030d232617fcf8ca0}
+
+
+Applies the \char`\"{}self-\/conjugate to distinct, odd\char`\"{} bijection of \mbox{[}2\mbox{]}. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integral type of the operands \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the self-\/conjugate Ferrers diagram to undergo the bijection \\
+\hline
+{\em directory} & is the location to save the verbose output \\
+\hline
+{\em verbose} & determines if snapshots are taken of the bijection as it happens \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a distinct, odd-\/part Ferrers diagram
+\end{DoxyReturn}
+Please see \mbox{[}2\mbox{]} for more details. \index{Bijections.\+hpp@{Bijections.\+hpp}!scdo\+Backwards@{scdo\+Backwards}}
+\index{scdo\+Backwards@{scdo\+Backwards}!Bijections.\+hpp@{Bijections.\+hpp}}
+\subsubsection[{\texorpdfstring{scdo\+Backwards(\+U\+P\+Vector$<$ Z $>$ upv, const std\+::string \&directory="""", const bool verbose=false)}{scdoBackwards(UPVector< Z > upv, const std::string &directory="", const bool verbose=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::scdo\+Backwards (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv, }
+\item[{const std\+::string \&}]{directory = {\ttfamily \char`\"{}\char`\"{}}, }
+\item[{const bool}]{verbose = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_bijections_8hpp_file_a93fd26ef4f22e9873bf4927503301ad4}{}\label{_bijections_8hpp_file_a93fd26ef4f22e9873bf4927503301ad4}
+
+
+Applies the \char`\"{}self-\/conjugate to distinct, odd\char`\"{} bijection of \mbox{[}2\mbox{]}, backwards. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integral type of the operands \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the distinct, odd-\/part Ferrers diagram to undergo the bijection \\
+\hline
+{\em directory} & is the location to save the verbose output \\
+\hline
+{\em verbose} & determines if snapshots are taken of the bijection as it happens \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a self-\/conjugate Ferrers diagram
+\end{DoxyReturn}
+Please see \mbox{[}2\mbox{]} for more details. \index{Bijections.\+hpp@{Bijections.\+hpp}!sylvester@{sylvester}}
+\index{sylvester@{sylvester}!Bijections.\+hpp@{Bijections.\+hpp}}
+\subsubsection[{\texorpdfstring{sylvester(\+U\+P\+Vector$<$ Z $>$ upv, const std\+::string \&directory="""", const bool verbose=false)}{sylvester(UPVector< Z > upv, const std::string &directory="", const bool verbose=false)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::sylvester (
+\begin{DoxyParamCaption}
+\item[{U\+P\+Vector$<$ Z $>$}]{upv, }
+\item[{const std\+::string \&}]{directory = {\ttfamily \char`\"{}\char`\"{}}, }
+\item[{const bool}]{verbose = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_bijections_8hpp_file_a697fc7f908f0e60ddf1691d6e43bc751}{}\label{_bijections_8hpp_file_a697fc7f908f0e60ddf1691d6e43bc751}
+
+
+Apply Sylvester\textquotesingle{}s bijection as defined in \mbox{[}2\mbox{]}. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv} & is the U\+P\+Vector which represents an integer partition of odd parts \\
+\hline
+{\em directory} & is the location to save the verbose output \\
+\hline
+{\em verbose} & determines if snapshots are taken of the bijection as it happens \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a distinct-\/part Ferrers diagram
+\end{DoxyReturn}
+See \mbox{[}1\mbox{]} p.\+18-\/20 for more details. 

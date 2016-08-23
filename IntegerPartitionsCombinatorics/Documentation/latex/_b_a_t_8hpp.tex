@@ -1,0 +1,85 @@
+\hypertarget{_b_a_t_8hpp}{}\section{B\+A\+T.\+hpp File Reference}
+\label{_b_a_t_8hpp}\index{B\+A\+T.\+hpp@{B\+A\+T.\+hpp}}
+
+
+Implements the basic arithmetic transformations of \mbox{[}2\mbox{]}.  
+
+
+{\ttfamily \#include $<$utility$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include \char`\"{}U\+P\+Vector.\+hpp\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_a_t_8hpp_aca55223c81bc31dab8e2a971bf72be5b}{I\+P\+C\+::\+B\+A\+T\+::sum} (const U\+P\+Vector$<$ Z $>$ \&first, const U\+P\+Vector$<$ Z $>$ \&second, bool horizontal=true)
+\begin{DoxyCompactList}\small\item\em Apply the sum or union transformation of \mbox{[}2\mbox{]} to two sets of integer points. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Z $>$ }\\U\+P\+Vector$<$ Z $>$ \hyperlink{_b_a_t_8hpp_a8c8664d2610529b7bee52c1dcabc5ec4}{I\+P\+C\+::\+B\+A\+T\+::sum} (const std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$$>$ \&upv\+Pair, bool horizontal=true)
+\begin{DoxyCompactList}\small\item\em Apply the sum or union transformation of \mbox{[}2\mbox{]} to two sets of integer points. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements the basic arithmetic transformations of \mbox{[}2\mbox{]}. 
+
+
+
+\subsection{Function Documentation}
+\index{B\+A\+T.\+hpp@{B\+A\+T.\+hpp}!sum@{sum}}
+\index{sum@{sum}!B\+A\+T.\+hpp@{B\+A\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{sum(const U\+P\+Vector$<$ Z $>$ \&first, const U\+P\+Vector$<$ Z $>$ \&second, bool horizontal=true)}{sum(const UPVector< Z > &first, const UPVector< Z > &second, bool horizontal=true)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+A\+T\+::sum (
+\begin{DoxyParamCaption}
+\item[{const U\+P\+Vector$<$ Z $>$ \&}]{first, }
+\item[{const U\+P\+Vector$<$ Z $>$ \&}]{second, }
+\item[{bool}]{horizontal = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_a_t_8hpp_file_aca55223c81bc31dab8e2a971bf72be5b}{}\label{_b_a_t_8hpp_file_aca55223c81bc31dab8e2a971bf72be5b}
+
+
+Apply the sum or union transformation of \mbox{[}2\mbox{]} to two sets of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em first} & is the first set of integer points to sum/unite \\
+\hline
+{\em second} & is the second set of integer points to sum/unite \\
+\hline
+{\em horizontal} & determines if the points are summed row-\/wise or column-\/wise \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the two sets of integer points post-\/sum/union
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformations that this function aims to mimic. To mimic \char`\"{}union\char`\"{}, set the horizontal argument to false. To mimic \char`\"{}sum\char`\"{}, set the horizontal argument to true. \index{B\+A\+T.\+hpp@{B\+A\+T.\+hpp}!sum@{sum}}
+\index{sum@{sum}!B\+A\+T.\+hpp@{B\+A\+T.\+hpp}}
+\subsubsection[{\texorpdfstring{sum(const std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$$>$ \&upv\+Pair, bool horizontal=true)}{sum(const std::pair< UPVector< Z >, UPVector< Z >> &upvPair, bool horizontal=true)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename Z $>$ U\+P\+Vector$<$Z$>$ I\+P\+C\+::\+B\+A\+T\+::sum (
+\begin{DoxyParamCaption}
+\item[{const std\+::pair$<$ U\+P\+Vector$<$ Z $>$, U\+P\+Vector$<$ Z $>$$>$ \&}]{upv\+Pair, }
+\item[{bool}]{horizontal = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{_b_a_t_8hpp_file_a8c8664d2610529b7bee52c1dcabc5ec4}{}\label{_b_a_t_8hpp_file_a8c8664d2610529b7bee52c1dcabc5ec4}
+
+
+Apply the sum or union transformation of \mbox{[}2\mbox{]} to two sets of integer points. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Z} & is the integer type of the operand objects \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em upv\+Pair} & is the pair of integer point sets \\
+\hline
+{\em horizontal} & determines if the points are summed row-\/wise or column-\/wise \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the two sets of integer points post-\/sum/union
+\end{DoxyReturn}
+Please refer to \mbox{[}2\mbox{]} for the full detailing of the transformations that this function aims to mimic. To mimic \char`\"{}union\char`\"{}, set the horizontal argument to false. To mimic \char`\"{}sum\char`\"{}, set the horizontal argument to true. 
