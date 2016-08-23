@@ -1,27 +1,23 @@
 ////////////////////////////////////////////////////////////////////////
 /// \file main.cpp
+/// \brief Contains the main routine
 ////////////////////////////////////////////////////////////////////////
 /// \mainpage
-/// \date March 6, 2016
+/// \date August 22, 2016
 /// \author Brenden Case and Ryan McNicol
-/// \version 5.0
+/// \version 6.0
 ///
-/// Incorporated Ryan's implementation of the AG-bijection.
-/// Added an input parameter for the bijections for specifying to which
-/// folder the files are output.
-/// Added a file condenser and a multiplicity reader.
-/// If you would like to test this main routine for yourself, make sure
-/// that the directories you input exist in you folder.
+/// Corrected the code - some functions were misnamed.
 ///
 /// References:
 ///     [1] I. Pak, The Nature of Integer Partition Bijections II.
 ///         Asymptotic Stability.
+///		[2] B. Case, Programming Partition Bijections
 ////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <cstdint>
 #include <string>
-#include <limits>
 
 #include "Utility.hpp"
 #include "UniquePoint.hpp"
@@ -31,246 +27,152 @@
 #include "ForwardGraph.hpp"
 #include "Bijections.hpp"
 
-typedef std::int64_t int64;
-
 using namespace IPC;
 
-template <typename Z>
-struct Pair
-{
-    Z start = std::numeric_limits<Z>::max();
-    Z end = std::numeric_limits<Z>::min();
-};
+typedef std::int64_t int64;
 
-template <typename Z>
-void condenseFile(const std::string& filename, const Z size)
-{
-    std::vector<Pair<Z>> lines(size);
-
-    std::ifstream ifs(filename);
-    Z x,y;
-    char sep;
-    while (!ifs.eof())
-    {
-        ifs >> x >> sep
-            >> y;
-        ifs.ignore(100000,'\n');
-
-        if (lines[y-1].start > x)
-            lines[y-1].start = x;
-        if (lines[y-1].end < x)
-            lines[y-1].end = x;
-    }
-    ifs.close();
-
-    std::ofstream ofs(filename);
-    for (std::size_t i = 0, n = lines.size(); i < n; ++i)
-    {
-        if (lines[i].start != std::numeric_limits<Z>::max())
-        {
-            ofs << lines[i].start << ',' << i + 1 << ",0\n"
-                << lines[i].end << ',' << i + 1 << ",0\n";
-        }
-    }
-    ofs.close();
-}
-
-enum class BijType
-{
-    AG,
-    Syl
-};
-
-template <typename Z>
-void condenseDirectory(const std::string& directory, BijType bt, Z size)
-{
-    std::vector<std::string> files = {
-        directory + "/fileA.txt",
-        directory + "/fileB.txt",
-        directory + "/fileC.txt",
-        directory + "/fileD.txt",
-        directory + "/fileE.txt",
-        directory + "/fileF.txt",
-        directory + "/fileG.txt",
-        directory + "/fileH.txt",
-        directory + "/fileI.txt"
-    };
-    if (bt == BijType::AG)
-    {
-        files.push_back(directory + "/fileJ.txt");
-        files.push_back(directory + "/fileK.txt");
-        files.push_back(directory + "/fileL.txt");
-        files.push_back(directory + "/fileM.txt");
-        files.push_back(directory + "/fileN.txt");
-        files.push_back(directory + "/fileO.txt");
-        files.push_back(directory + "/fileP.txt");
-        files.push_back(directory + "/fileQ.txt");
-        files.push_back(directory + "/fileR.txt");
-        files.push_back(directory + "/fileS.txt");
-        files.push_back(directory + "/fileT.txt");
-        files.push_back(directory + "/fileU.txt");
-    }
-
-    for (auto& file : files)
-        condenseFile<Z>(file,size);
-}
+typedef UniquePoint<int64> UPI;
 
 int main()
 {
-//    /* Compare with Figure 14, [1]. */
-//    UPVector<int64> upv14;
-//    int64 counter = 1;
-//    for (int64 x = 1; x <= 7; ++x, ++counter)
-//        upv14.push_back(UniquePoint<int64>(x,1,counter));
-//    for (int64 x = 1; x <= 7; ++x, ++counter)
-//        upv14.push_back(UniquePoint<int64>(x,2,counter));
-//    for (int64 x = 1; x <= 6; ++x, ++counter)
-//        upv14.push_back(UniquePoint<int64>(x,3,counter));
-//    for (int64 x = 1; x <= 5; ++x, ++counter)
-//        upv14.push_back(UniquePoint<int64>(x,4,counter));
-//    for (int64 x = 1; x <= 5; ++x, ++counter)
-//        upv14.push_back(UniquePoint<int64>(x,5,counter));
-//    for (int64 x = 1; x <= 3; ++x, ++counter)
-//        upv14.push_back(UniquePoint<int64>(x,6,counter));
-//    for (int64 x = 1; x <= 2; ++x, ++counter)
-//        upv14.push_back(UniquePoint<int64>(x,7,counter));
+	// Test the "self-conjugate to disinct, odd parts" bijection
+	// //////////////////////////////////////////////////////////////////////
+	int64 id = 0;
+	UPVector<int64> upv_scdo = {
+		UPI(1,1,++id), UPI(2,1,++id), UPI(3,1,++id), UPI(4,1,++id), UPI(5,1,++id), UPI(6,1,++id), UPI(7,1,++id),
+		UPI(1,2,++id), UPI(2,2,++id), UPI(3,2,++id), UPI(4,2,++id), UPI(5,2,++id), UPI(6,2,++id), UPI(7,2,++id),
+		UPI(1,3,++id), UPI(2,3,++id), UPI(3,3,++id), UPI(4,3,++id), UPI(5,3,++id), UPI(6,3,++id),
+		UPI(1,4,++id), UPI(2,4,++id), UPI(3,4,++id), UPI(4,4,++id), UPI(5,4,++id),
+		UPI(1,5,++id), UPI(2,5,++id), UPI(3,5,++id), UPI(4,5,++id), UPI(5,5,++id),
+		UPI(1,6,++id), UPI(2,6,++id), UPI(3,6,++id),
+		UPI(1,7,++id), UPI(2,7,++id)
+	};
+	std::cout << "Pre scdo bijection:\n" << upv_scdo << std::endl;
+	std::cout << "Post scdo bijection:\n" << scdo(upv_scdo,"Test1",true) << std::endl;
 
-//    std::cout << "Self-conjugate partition created!\n"
-//                 "Now applying Sylvester's bijection...\n";
+	// Test the sylvester bijection
+	// //////////////////////////////////////////////////////////////////////
+	int64 id2 = 0;
+	UPVector<int64> upv_sylvester = {
+		UPI(1,1,++id2), UPI(2,1,++id2), UPI(3,1,++id2), UPI(4,1,++id2), UPI(5,1,++id2), UPI(6,1,++id2), UPI(7,1,++id2), UPI(8,1,++id2), UPI(9,1,++id2), UPI(10,1,++id2), UPI(11,1,++id2),
+		UPI(1,2,++id2), UPI(2,2,++id2), UPI(3,2,++id2), UPI(4,2,++id2), UPI(5,2,++id2), UPI(6,2,++id2), UPI(7,2,++id2), UPI(8,2,++id2), UPI(9,2,++id2), UPI(10,2,++id2), UPI(11,2,++id2),
+		UPI(1,3,++id2), UPI(2,3,++id2), UPI(3,3,++id2), UPI(4,3,++id2), UPI(5,3,++id2), UPI(6,3,++id2), UPI(7,3,++id2), UPI(8,3,++id2), UPI(9,3,++id2),
+		UPI(1,4,++id2), UPI(2,4,++id2), UPI(3,4,++id2), UPI(4,4,++id2), UPI(5,4,++id2), UPI(6,4,++id2), UPI(7,4,++id2),
+		UPI(1,5,++id2), UPI(2,5,++id2), UPI(3,5,++id2),
+		UPI(1,6,++id2), UPI(2,6,++id2), UPI(3,6,++id2),
+		UPI(1,7,++id2)
+	};
+	std::cout << "Pre sylvester bijection:\n" << upv_sylvester << std::endl;
+	std::cout << "Post sylvester bijection:\n" << sylvester(upv_sylvester,"Test2",true) << std::endl;
 
-//    auto upv14_REVERSE = sylvesterForward(upv14,"_Figure-14",true);
+	// Test the reversed "self-conjugate to disinct, odd parts" bijection
+	// //////////////////////////////////////////////////////////////////////
+	int64 id3 = 0;
+	UPVector<int64> upv_scdoBackwards = {
+		UPI(1,1,++id3), UPI(2,1,++id3), UPI(3,1,++id3), UPI(4,1,++id3), UPI(5,1,++id3), UPI(6,1,++id3), UPI(7,1,++id3), UPI(8,1,++id3), UPI(9,1,++id3), UPI(10,1,++id3), UPI(11,1,++id3), UPI(12,1,++id3), UPI(13,1,++id3),
+		UPI(1,2,++id3), UPI(2,2,++id3), UPI(3,2,++id3), UPI(4,2,++id3), UPI(5,2,++id3), UPI(6,2,++id3), UPI(7,2,++id3), UPI(8,2,++id3), UPI(9,2,++id3), UPI(10,2,++id3), UPI(11,2,++id3),
+		UPI(1,3,++id3), UPI(2,3,++id3), UPI(3,3,++id3), UPI(4,3,++id3), UPI(5,3,++id3), UPI(6,3,++id3), UPI(7,3,++id3),
+		UPI(1,4,++id3), UPI(2,4,++id3), UPI(3,4,++id3),
+		UPI(1,5,++id3)
+	};
+	std::cout << "Pre scdo (backwards) bijection:\n" << upv_scdoBackwards << std::endl;
+	std::cout << "Post scdo (backwards) bijection:\n" << scdoBackwards(upv_scdoBackwards,"Test3",true) << std::endl;
 
-//    std::cout << "Bijection applied!\n"
-//                 "Going in reverse...\n";
+	std::size_t counter = 0;
+	std::cout << ++counter << std::endl;
+//	/* Output verbose sylvester bijection on size 20 partitions. */
+//	auto upvv = readInMultiplicities("_odd part sizes/odd_parts_size_20.txt",20,100);
+//	for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
+//	{
+//		std::string num = std::to_string(i + 1);
+//		std::string directory = "sylvester-20-" + num;
+//		sylvester(upvv[i],directory,true);
+//	}
+//	std::cout << ++counter << std::endl;
+//	/* Output verbose sylvester bijection on size 100 partitions. */
+//	upvv = readInMultiplicities("_odd part sizes/odd_parts_size_100.txt",100,100);
+//	for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
+//	{
+//		std::string num = std::to_string(i + 1);
+//		std::string directory = "sylvester-100-" + num;
+//		sylvester(upvv[i],directory,true);
+//	}
+//	std::cout << ++counter << std::endl;
+//	/* Output verbose sylvester bijection on size 1000 partitions. */
+//	upvv = readInMultiplicities("_odd part sizes/odd_parts_size_1,000.txt",1000,100);
+//	for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
+//	{
+//		std::string num = std::to_string(i + 1);
+//		std::string directory = "sylvester-1000-" + num;
+//		sylvester(upvv[i],directory,true);
+//	}
+//	std::cout << ++counter << std::endl;
+//	/* Output verbose sylvester bijection on size 10000 partitions. */
+//	upvv = readInMultiplicities("_odd part sizes/odd_parts_size_10,000.txt",10000,100);
+//	for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
+//	{
+//		std::string num = std::to_string(i + 1);
+//		std::string directory = "sylvester-10000-" + num;
+//		sylvester(upvv[i],directory,true);
+//		std::cout << counter << ' ' << i << std::endl;
+//	}
+//	std::cout << ++counter << std::endl;
+//	/* Output verbose sylvester bijection on size 100000 partitions. */
+//	upvv = readInMultiplicities("_odd part sizes/odd_parts_size_100,000.txt",100000,100);
+//	for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
+//	{
+//		std::string num = std::to_string(i + 1);
+//		std::string directory = "sylvester-100000-" + num;
+//		sylvester(upvv[i],directory,true);
+//		std::cout << counter << ' ' << i << std::endl;
+//	}
 
-//    sylvesterBackward(upv14_REVERSE,"_Figure-14-REVERSE",true);
+	/* Output verbose scdo (backwards) bijection on size 20 partitions. */
+	auto upvv2 = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_20.txt",20,100);
+	for (std::size_t i = 0, n = upvv2.size(); i < n; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		std::string directory = "scdo-20-" + num;
+		scdoBackwards(upvv2[i],directory,true);
+	}
+	std::cout << ++counter << std::endl;
+	/* Output verbose scdo (backwards) bijection on size 100 partitions. */
+	upvv2 = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_100.txt",100,100);
+	for (std::size_t i = 0, n = upvv2.size(); i < n; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		std::string directory = "scdo-100-" + num;
+		scdoBackwards(upvv2[i],directory,true);
+	}
+	std::cout << ++counter << std::endl;
+	/* Output verbose scdo (backwards) bijection on size 1000 partitions. */
+	upvv2 = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_1,000.txt",1000,100);
+	for (std::size_t i = 0, n = upvv2.size(); i < n; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		std::string directory = "scdo-1000-" + num;
+		scdoBackwards(upvv2[i],directory,true);
+	}
+	std::cout << ++counter << std::endl;
+	/* Output verbose scdo (backwards) bijection on size 10000 partitions. */
+	upvv2 = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_10,000.txt",10000,100);
+	for (std::size_t i = 0, n = upvv2.size(); i < n; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		std::string directory = "scdo-10000-" + num;
+		scdoBackwards(upvv2[i],directory,true);
+		std::cout << counter << ' ' << i << std::endl;
+	}
+	std::cout << ++counter << std::endl;
+	/* Output verbose scdo (backwards) bijection on size 100000 partitions. */
+	upvv2 = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_100,000.txt",100000,10);
+	for (std::size_t i = 0, n = upvv2.size(); i < n; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		std::string directory = "scdo-100000-" + num;
+		scdoBackwards(upvv2[i],directory,true);
+		std::cout << counter << ' ' << i << std::endl;
+	}
 
-//    std::cout << "Bijection applied!\n\n";
-
-//    /* Compare with Figure 16, [1]. */
-//    UPVector<int64> upv16;
-//    counter = 1;
-//    for (int64 x = 1; x <= 11; ++x, ++counter)
-//        upv16.push_back(UniquePoint<int64>(x,1,counter));
-//    for (int64 x = 1; x <= 11; ++x, ++counter)
-//        upv16.push_back(UniquePoint<int64>(x,2,counter));
-//    for (int64 x = 1; x <= 9; ++x, ++counter)
-//        upv16.push_back(UniquePoint<int64>(x,3,counter));
-//    for (int64 x = 1; x <= 7; ++x, ++counter)
-//        upv16.push_back(UniquePoint<int64>(x,4,counter));
-//    for (int64 x = 1; x <= 3; ++x, ++counter)
-//        upv16.push_back(UniquePoint<int64>(x,5,counter));
-//    for (int64 x = 1; x <= 3; ++x, ++counter)
-//        upv16.push_back(UniquePoint<int64>(x,6,counter));
-//    upv16.push_back(UniquePoint<int64>(1,7,counter));
-
-//    std::cout << "Odd partition created! Now applying AG-bijection...\n";
-
-//    AG(upv16,"_Figure-16",true);
-
-//    std::cout << "Bijection applied!\n";
-
-//    /* Output verbose AG bijection on size 20 partitions. */
-//    auto upvv = readInMultiplicities("_odd part sizes/odd_parts_size_20.txt",20,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "AG-20-" + num;
-//        AG(upvv[i],directory,true);
-//    }
-
-//    /* Output verbose AG bijection on size 100 partitions. */
-//    auto upvv = readInMultiplicities("_odd part sizes/odd_parts_size_100.txt",100,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "AG-100-" + num;
-//        AG(upvv[i],directory,true);
-//    }
-
-//    /* Output verbose AG bijection on size 1000 partitions. */
-//    /* Then condense. */
-//    auto upvv = readInMultiplicities("_odd part sizes/odd_parts_size_1,000.txt",1000,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "AG-1000-" + num;
-//        AG(upvv[i],directory,true);
-//        condenseDirectory(directory,BijType::AG,1000);
-//    }
-
-//    /* Output verbose AG bijection on size 10000 partitions. */
-//    /* Then condense. */
-//    auto upvv = readInMultiplicities("_odd part sizes/odd_parts_size_10,000.txt",10000,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "AG-10000-" + num;
-//        AG(upvv[i],directory,true);
-//        condenseDirectory(directory,BijType::AG,10000);
-//    }
-
-//    /* Output verbose AG bijection on size 100000 partitions. */
-//    /* Then condense. */
-//    auto upvv = readInMultiplicities("_odd part sizes/odd_parts_size_100,000.txt",100000,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "AG-100000-" + num;
-//        AG(upvv[i],directory,true);
-//        condenseDirectory(directory,BijType::AG,100000);
-//    }
-
-//    /* Output verbose Sylvester bijection on size 20 partitions. */
-//    auto upvv = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_20.txt",20,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "Sylvester-20-" + num;
-//        sylvesterBackward(upvv[i],directory,true);
-//    }
-
-//    /* Output verbose Sylvester bijection on size 100 partitions. */
-//    auto upvv = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_100.txt",100,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "Sylvester-100-" + num;
-//        sylvesterBackward(upvv[i],directory,true);
-//    }
-
-//    /* Output verbose Sylvester bijection on size 1000 partitions. */
-//    /* Then condense. */
-//    auto upvv = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_1,000.txt",1000,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "Sylvester-1000-" + num;
-//        sylvesterBackward(upvv[i],directory,true);
-//        condenseDirectory(directory,BijType::Syl,1000);
-//    }
-
-//    /* Output verbose Sylvester bijection on size 10000 partitions. */
-//    /* Then condense. */
-//    auto upvv = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_10,000.txt",10000,100);
-//    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-//    {
-//        std::string num = std::to_string(i + 1);
-//        std::string directory = "Sylvester-10000-" + num;
-//        sylvesterBackward(upvv[i],directory,true);
-//        condenseDirectory(directory,BijType::Syl,10000);
-//    }
-
-    /* Output verbose Sylvester bijection on size 100000 partitions. */
-    /* Then condense. */
-    auto upvv = readInMultiplicities("_unique odd part sizes/unique_odd_parts_size_100,000.txt",100000,10);
-    for (std::size_t i = 0, n = upvv.size(); i < n; ++i)
-    {
-        std::string num = std::to_string(i + 1);
-        std::string directory = "Sylvester-100000-" + num;
-        sylvesterBackward(upvv[i],directory,true);
-        condenseDirectory(directory,BijType::Syl,100000);
-    }
-
-    return 0;
+	return 0;
 }

@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////
 /// \file UPVector.hpp
-/// Type-define the UPVector object, a vector of UniquePoints.
+/// \brief Defines the UPVector type and methods for filling it
 ////////////////////////////////////////////////////////////////////////
 
-#ifndef INTEGER_PARTITIONS_COMBINATORICS_UNIQUE_POINT_VECTOR_HPP
-#define INTEGER_PARTITIONS_COMBINATORICS_UNIQUE_POINT_VECTOR_HPP
+#ifndef IPC_UPVECTOR_HPP
+#define IPC_UPVECTOR_HPP
 
 #include <vector>
 #include <fstream>
@@ -74,18 +74,18 @@ namespace IPC
 }
 
 ////////////////////////////////////////////////////////////////////////
-/// \brief Outputs a UPVector by outputting each of its elements.
-/// \param os is the stream to which the UPVector is output.
-/// \param up is the UPVector to be output.
-/// \return the input stream with the UPVector output to it.
+/// \brief Outputs a UPVector by outputting each of its elements
+/// \param os is the stream to which the UPVector is output
+/// \param upv is the UPVector to be output
+/// \return the input stream with the UPVector output to it
 ////////////////////////////////////////////////////////////////////////
 template <typename Z>
-std::ostream& operator<<(std::ostream& os, const IPC::UPVector<Z>& ps)
+std::ostream& operator<<(std::ostream& os, const IPC::UPVector<Z>& upv)
 {
-    for (auto elnt : ps)
+	for (const auto& elnt : upv)
         os << elnt << '\n';
 
     return os;
 }
 
-#endif // INTEGER_PARTITIONS_COMBINATORICS_UNIQUE_POINT_VECTOR_HPP
+#endif // IPC_UPVECTOR_HPP

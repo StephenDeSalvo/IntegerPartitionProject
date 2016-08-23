@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////
 /// \file ForwardGraph.hpp
-/// Declares and defines a forward graph.
+/// \brief Defines and implements the ForwardGraph class
 ////////////////////////////////////////////////////////////////////////
 
-#ifndef INTEGER_PARTITIONS_COMBINATORICS_FORWARD_GRAPH_HPP
-#define INTEGER_PARTITIONS_COMBINATORICS_FORWARD_GRAPH_HPP
+#ifndef IPC_FORWARDGRAPH_HPP
+#define IPC_FORWARDGRAPH_HPP
 
 #include <unordered_map>
 #include <vector>
@@ -16,10 +16,10 @@ namespace IPC
 {
 
     ////////////////////////////////////////////////////////////////////////
-    /// \brief Implementation of a forward graph.
-    /// \tparam K is the key value to look-up each vertex's data.
-    /// \tparam H is the hash value generated for K.
-    /// \tparam V is the type of data stored in each vertex.
+	/// \brief Implementation of a forward graph
+	/// \tparam K is the key value to look-up each vertex's data
+	/// \tparam H is the hash value generated for K
+	/// \tparam V is the type of data stored in each vertex
     ///
     /// This is a bare-bones graph implementation, named "forward" because
     /// vertices and edges can only be added, not removed.
@@ -32,7 +32,7 @@ namespace IPC
     class ForwardGraph
     {
     public:
-        void ouputToFile(const std::string& directory)
+		void outputToFile(const std::string& directory)
         {
             std::string filename = directory + "/graph.txt";
 
@@ -109,4 +109,4 @@ std::ostream& operator<<(std::ostream& os, const IPC::ForwardGraph<K,V>& fg)
     return os;
 }
 
-#endif // INTEGER_PARTITIONS_COMBINATORICS_FORWARD_GRAPH_HPP
+#endif // IPC_FORWARDGRAPH_HPP
